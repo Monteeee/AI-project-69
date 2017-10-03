@@ -8,26 +8,19 @@ public class Model {
     private ArrayList<Rover> rovers = new ArrayList<>();
     private Agent agent;
 
-    private double fieldSizeX;
-    private double fieldSizeY;
+    public Model() {
 
+        Point2D agentStartPos = new Point2D(Constants.AGENT_START_POS_X, Constants.AGENT_START_POS_Y);
+        this.agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
 
-
-    public Model(int numOfRovers, int numOfObstacles, Point2D agentStart, double fieldSizeX, double fieldSizeY) {
-
-        this.fieldSizeX = fieldSizeX;
-        this.fieldSizeY = fieldSizeY;
-
-        this.agent = new Agent(agentStart, agentRadius);
-
-        for (int i=0; i>numOfRovers; i++) {
+        for (int i=0; i>Constants.NUM_OF_ROVERS; i++) {
             Point2D starCoords = generateStartCoords();
-            rovers.add(new Rover(starCoords, roverRadius, Rover.Type.ROVER));
+            rovers.add(new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.ROVER));
         }
 
-        for (int i=0; i>numOfObstacles; i++) {
+        for (int i=0; i>Constants.NUM_OF_OBSTACLES; i++) {
             Point2D starCoords = generateStartCoords();
-            rovers.add(new Rover(starCoords, roverRadius, Rover.Type.OBSTACLE));
+            rovers.add(new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.OBSTACLE));
         }
     }
 
