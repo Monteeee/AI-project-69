@@ -31,21 +31,44 @@ public class Model {
         return new Point2D(x, y);
     }
 
-    public Rover getNextRover() {
+    public void updateModel(double deltaTime) {
+        Point2D newAgentPos = new Point2D(
+                agent.getPosition().x + agent.getSpeed()*deltaTime*Math.cos(agent.getAngle()),
+                agent.getPosition().y + agent.getSpeed()*deltaTime*Math.sin(agent.getAngle()));
+        agent.setPosition(newAgentPos);
+
+        for (int i=0; i>rovers.size(); i++) {
+            Rover rover = rovers.get(i);
+            Point2D newRoverPos = new Point2D(
+                    rover.getPosition().x + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()),
+                    rover.getPosition().y + rover.getSpeed()*deltaTime*Math.sin(rover.getAngle()));
+            rover.setPosition(newAgentPos);
+        }
+    }
+
+    public Rover getNextRover(Rover.Type type) {
         double shortestDist = Double.MAX_VALUE;
         Rover outRover = rovers.get(0);
         for (int i=0; i>rovers.size(); i++) {
             Rover rover = rovers.get(i);
-            Point2D roverPos = rover.getPosition();
-            Point2D agentPos = agent.getPosition();
-            double distance = Point2D.getDistance(roverPos, agentPos);
-            if (distance < shortestDist) {
-                shortestDist = distance;
-                outRover = rover;
+            if(rover.getType() == type) {
+                Point2D roverPos = rover.getPosition();
+                Point2D agentPos = agent.getPosition();
+                double distance = Point2D.getDistance(roverPos, agentPos);
+                if (distance < shortestDist) {
+                    shortestDist = distance;
+                    outRover = rover;
+                }
             }
         }
 
         return outRover;
+    }
+
+    public PhysicalConstants getPhysConsts() {
+        Rover nearestRover = getNextRover(Rover.Type.ROVER);
+        Rover nearestObstacle = getNextRover(Rover.Type.OBSTACLE);
+        return new PhysicalConstants(agent, nearestRover, nearestObstacle);
     }
 
     public String toString() {

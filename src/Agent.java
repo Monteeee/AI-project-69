@@ -12,6 +12,10 @@ public class Agent {
     public double getAngle() { return angle; }
     public double getAngularVelocity() { return angularVelocity; }
 
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
+
     public Agent (Point2D position, double radius) {
         this.position = position;
         this.radius = radius;

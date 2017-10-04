@@ -14,6 +14,10 @@ public class Rover {
     public double getAngularVelocity() { return angularVelocity; }
     public Type getType() { return type; }
 
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
+
     public Rover (Point2D position, double radius, Type type) {
         this.position = position;
         this.radius = radius;
