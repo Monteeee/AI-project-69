@@ -86,22 +86,22 @@ public class PhysConst {
     @Override
     public String toString() {
         return "PhysConst{" +
-                "pTar=" + pTar +
-                ", vTar=" + vTar +
-                ", p=" + p +
-                ", v=" + v +
-                ", pObs=" + pObs +
-                ", vObs=" + vObs +
-                ", rObs=" + rObs +
-                ", pRt=" + pRt +
-                ", pRo=" + pRo +
-                ", pOt=" + pOt +
-                ", pSi=" + pSi +
-                ", thetaRo=" + thetaRo +
-                ", thetaOt=" + thetaOt +
-                ", thetaTar=" + thetaTar +
-                ", thetaObs=" + thetaObs +
-                ", theta=" + theta +
+                "\npTar=" + pTar +
+                "\n vTar=" + vTar +
+                "\n p=" + p +
+                "\n v=" + v +
+                "\n pObs=" + pObs +
+                "\n vObs=" + vObs +
+                "\n rObs=" + rObs +
+                "\n pRt=" + pRt +
+                "\n pRo=" + pRo +
+                "\n pOt=" + pOt +
+                "\n pSi=" + pSi +
+                "\n thetaRo=" + thetaRo +
+                "\n thetaOt=" + thetaOt +
+                "\n thetaTar=" + thetaTar +
+                "\n thetaObs=" + thetaObs +
+                "\n theta=" + theta +
                 '}';
     }
 }
