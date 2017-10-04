@@ -27,6 +27,7 @@ public class Rover {
         this.position = position;
         this.radius = radius;
         this.type = type;
+        findRoute();
     }
 
     public enum Type {
