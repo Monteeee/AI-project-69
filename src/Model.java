@@ -7,6 +7,8 @@ import java.util.Random;
 public class Model {
     private ArrayList<Rover> rovers = new ArrayList<>();
     private Agent agent;
+    private int score = Constants.INIT_SCORE;
+    private double lastScoreTimer;
 
     public Model() {
 
@@ -22,12 +24,14 @@ public class Model {
             Point2D starCoords = generateStartCoords();
             rovers.add(new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.OBSTACLE));
         }
+
+        lastScoreTimer = System.currentTimeMillis();
     }
 
     private Point2D generateStartCoords() {
         Random random = new Random();
-        double x = random.nextDouble();
-        double y = random.nextDouble();
+        double x = random.nextDouble() * Constants.FIELD_SIZE_X;
+        double y = random.nextDouble() * Constants.FIELD_SIZE_Y;
         return new Point2D(x, y);
     }
 
@@ -43,6 +47,14 @@ public class Model {
                     rover.getPosition().x + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()),
                     rover.getPosition().y + rover.getSpeed()*deltaTime*Math.sin(rover.getAngle()));
             rover.setPosition(newAgentPos);
+
+            //Goal check, bottom and top of screen
+            if( rover.getType() == Rover.Type.ROVER) {
+                if (rover.getPosition().y < 0 || rover.getPosition().y > Constants.FIELD_SIZE_Y) {
+                    score += Constants.SCORE_PER_ROVER;
+                    rovers.remove(rover);
+                }
+            }
         }
     }
 
@@ -65,10 +77,18 @@ public class Model {
         return outRover;
     }
 
-    public PhysicalConstants getPhysConsts() {
+    public PhysConst getPhysConsts() {
         Rover nearestRover = getNextRover(Rover.Type.ROVER);
         Rover nearestObstacle = getNextRover(Rover.Type.OBSTACLE);
-        return new PhysicalConstants(agent, nearestRover, nearestObstacle);
+        return new PhysConst(agent, nearestRover, nearestObstacle);
+    }
+
+    public void checkTimeAndDecrementScore() {
+        double currentTime = System.currentTimeMillis();
+        if (currentTime > lastScoreTimer + 1000) {
+            score -= 1;
+            lastScoreTimer = System.currentTimeMillis();
+        }
     }
 
     public String toString() {
