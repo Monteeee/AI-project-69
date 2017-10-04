@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6eb57803-4f2d-4251-92d0-7bacd0566f16" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model.java" afterPath="$PROJECT_DIR$/src/Model.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Program.java" afterPath="$PROJECT_DIR$/src/Program.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Route.java" afterPath="$PROJECT_DIR$/src/Route.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Rover.java" afterPath="$PROJECT_DIR$/src/Rover.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -49,12 +50,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Rover.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Rover.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Rover.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-316">
-              <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
-              <folding />
+            <state relative-caret-position="440">
+              <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+              <folding>
+                <marker date="1507130873349" expanded="true" signature="297:315" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="349:369" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="399:416" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="446:463" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="503:530" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="557:573" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="621:773" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="837:955" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="978:1009" ph="{...}" />
+                <marker date="1507130873349" expanded="true" signature="1038:1510" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -63,13 +75,13 @@
         <entry file="file://$PROJECT_DIR$/src/Route.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="162">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Program.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Program.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Program.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
@@ -314,12 +326,12 @@
       <option name="presentableId" value="Default" />
       <updated>1507043586404</updated>
       <workItem from="1507043589687" duration="404000" />
-      <workItem from="1507114272310" duration="14727000" />
+      <workItem from="1507114272310" duration="14954000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15131000" />
+    <option name="totallyTimeSpent" value="15358000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="73" y="-5" width="1847" height="1085" extended-state="6" />
@@ -362,13 +374,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Program.java</url>
-          <line>5</line>
-          <properties />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="1" />
     </breakpoint-manager>
     <watches-manager />
@@ -397,7 +402,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="13" lean-forward="false" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
-          <folding />
+          <folding>
+            <marker date="1507130873349" expanded="true" signature="297:315" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="349:369" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="399:416" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="446:463" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="503:530" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="557:573" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="621:773" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="837:955" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="978:1009" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="1038:1510" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -470,14 +486,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Program.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
@@ -492,15 +500,34 @@
     <entry file="file://$PROJECT_DIR$/src/Route.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Rover.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-316">
-          <caret line="9" column="23" lean-forward="true" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+        <state relative-caret-position="440">
+          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <folding>
+            <marker date="1507130873349" expanded="true" signature="297:315" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="349:369" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="399:416" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="446:463" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="503:530" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="557:573" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="621:773" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="837:955" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="978:1009" ph="{...}" />
+            <marker date="1507130873349" expanded="true" signature="1038:1510" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Program.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>

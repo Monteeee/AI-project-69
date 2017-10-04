@@ -3,6 +3,6 @@ public class Program {
         Model model = new Model();
 //        model.toString();
         model.updateModel(1000);
-        model.toString();
+        System.out.println(model.toString());
     }
 }
