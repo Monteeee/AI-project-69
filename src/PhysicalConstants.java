@@ -1,24 +1,5 @@
 public class PhysicalConstants {
 
-    public PhysicalConstants(Agent agent, Rover rover){
-
-        this.pTar = rover.getPosition();
-
-        this.vTar = new Point2D(rover.getSpeed() * Math.cos(rover.getAngle()), rover.getSpeed() * Math.sin(rover.getAngle()));
-
-        this.p = agent.getPosition();
-
-        this.v = new Point2D(agent.getSpeed() * Math.cos(agent.getAngle()),agent.getSpeed() * Math.sin(agent.getAngle()));
-
-        this.pRt = (Point2D.relPos(pTar, p));
-
-        this.pSi = Math.atan(pRt.y / pRt.x);
-
-        this.theta = agent.getAngle();
-
-    }
-
-
     // position of target
     public Point2D pTar;
 
@@ -64,4 +45,22 @@ public class PhysicalConstants {
     //angle of v
     public double theta;
 
+
+    public PhysicalConstants(Agent agent, Rover rover){
+
+        this.pTar = rover.getPosition();
+
+        this.vTar = new Point2D(rover.getSpeed() * Math.cos(rover.getAngle()), rover.getSpeed() * Math.sin(rover.getAngle()));
+
+        this.p = agent.getPosition();
+
+        this.v = new Point2D(agent.getSpeed() * Math.cos(agent.getAngle()),agent.getSpeed() * Math.sin(agent.getAngle()));
+
+        this.pRt = (Point2D.relPos(pTar, p));
+
+        this.pSi = Math.atan(pRt.y / pRt.x);
+
+        this.theta = agent.getAngle();
+
+    }
 }
