@@ -15,11 +15,11 @@ public class Model {
         Point2D agentStartPos = new Point2D(Constants.AGENT_START_POS_X, Constants.AGENT_START_POS_Y);
         this.agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
 
-        for (int i=0; i>Constants.NUM_OF_ROVERS; i++) {
+        for (int i=0; i<Constants.NUM_OF_ROVERS; i++) {
             placeRover(Rover.Type.ROVER);
         }
 
-        for (int i=0; i>Constants.NUM_OF_OBSTACLES; i++) {
+        for (int i=0; i<Constants.NUM_OF_OBSTACLES; i++) {
             placeRover(Rover.Type.OBSTACLE);
         }
 
@@ -62,7 +62,7 @@ public class Model {
                 agent.getPosition().y + agent.getSpeed()*deltaTime*Math.sin(agent.getAngle()));
         agent.setPosition(newAgentPos);
 
-        for (int i=0; i>rovers.size(); i++) {
+        for (int i=0; i<rovers.size(); i++) {
             Rover rover = rovers.get(i);
             Point2D newRoverPos = new Point2D(
                     rover.getPosition().x + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()),
@@ -82,7 +82,7 @@ public class Model {
     public Rover getNextRover(Rover.Type type) {
         double shortestDist = Double.MAX_VALUE;
         Rover outRover = rovers.get(0);
-        for (int i=0; i>rovers.size(); i++) {
+        for (int i=0; i<rovers.size(); i++) {
             Rover rover = rovers.get(i);
             if(rover.getType() == type) {
                 Point2D roverPos = rover.getPosition();

@@ -7,7 +7,7 @@ public class Rover {
     private double speed;
     private double angle;
     private double angularVelocity;
-    public Route route;
+    public Route route = new Route();
     private final Type type;
 
     public double getRadius() { return radius; }
@@ -27,6 +27,7 @@ public class Rover {
         this.position = position;
         this.radius = radius;
         this.type = type;
+        findRoute();
     }
 
     public enum Type {
