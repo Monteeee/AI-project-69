@@ -8,4 +8,10 @@ public class Point2D {
         this.x = x;
         this.y = y;
     }
+
+    public static Point2D relPos(Point2D a, Point2D b){
+        double x = a.x - b.x;
+        double y = a.y - b.y;
+        return new Point2D(x, y);
+    }
 }
