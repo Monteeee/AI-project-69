@@ -12,12 +12,32 @@ public class Model {
 
     public Model() {
 
+        private ArrayList<Route>() routes = new ArrayList<Route>();
+
         Point2D agentStartPos = new Point2D(Constants.AGENT_START_POS_X, Constants.AGENT_START_POS_Y);
         this.agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
 
         for (int i=0; i>Constants.NUM_OF_ROVERS; i++) {
-            Point2D starCoords = generateStartCoords();
-            rovers.add(new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.ROVER));
+            boolean placed = false;
+            while(!placed) {
+                Point2D starCoords = generateStartCoords();
+                Rover rover = new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.ROVER);
+                boolean overlap = false;
+                for (Route prevRoute : routes) {
+                    Route currentRoute = rover.route;
+
+                    double distance = Point2D.getDistance(prevRoute.position, currentRoute.position);
+                    if (prevRoute.radius + currentRoute.radius < distance) {
+                        overlap = true;
+                    }
+                }
+
+                if (!overlap) {
+                    rovers.add(rover);
+                    routes.add(rover.route);
+                    placed = true;
+                }
+            }
         }
 
         for (int i=0; i>Constants.NUM_OF_OBSTACLES; i++) {
