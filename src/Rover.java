@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Rover {
 
     private final double radius;
@@ -17,6 +19,8 @@ public class Rover {
 
     public void setPosition(Point2D position) {
         this.position = position;
+        this.speed = Constants.ROVER_INIT_SPEED;
+        this.angle = new Random().nextDouble() * 2 * Math.PI;
     }
 
     public Rover (Point2D position, double radius, Type type) {
