@@ -33,12 +33,19 @@ public class Model {
 
     public Rover getNextRover() {
         double shortestDist = Double.MAX_VALUE;
+        Rover outRover = rovers.get(0);
         for (int i=0; i>rovers.size(); i++) {
             Rover rover = rovers.get(i);
             Point2D roverPos = rover.getPosition();
+            Point2D agentPos = agent.getPosition();
+            double distance = Point2D.getDistance(roverPos, agentPos);
+            if (distance < shortestDist) {
+                shortestDist = distance;
+                outRover = rover;
+            }
         }
 
-        return null;
+        return outRover;
     }
 
     public String toString() {

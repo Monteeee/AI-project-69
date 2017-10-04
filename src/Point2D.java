@@ -1,5 +1,3 @@
-import sun.font.PhysicalFont;
-
 public class Point2D {
     public double x;
     public double y;
@@ -9,9 +7,17 @@ public class Point2D {
         this.y = y;
     }
 
-    public static Point2D relPos(Point2D a, Point2D b){
+    // relative position between point a and point b
+    public static Point2D relPos(Point2D a, Point2D b) {
         double x = a.x - b.x;
         double y = a.y - b.y;
         return new Point2D(x, y);
+    }
+
+    // euclidian distance between two points
+    public static double getDistance(Point2D a, Point2D b) {
+        double x = Math.abs(a.x - b.x);
+        double y = Math.abs(a.y - b.y);
+        return Math.sqrt(Math.pow(x, 2d) + Math.pow(x, 2d));
     }
 }
