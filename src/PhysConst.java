@@ -83,4 +83,25 @@ public class PhysConst {
 
         this.theta = robot.getAngle();
     }
+    @Override
+    public String toString() {
+        return "PhysConst{" +
+                "pTar=" + pTar +
+                ", vTar=" + vTar +
+                ", p=" + p +
+                ", v=" + v +
+                ", pObs=" + pObs +
+                ", vObs=" + vObs +
+                ", rObs=" + rObs +
+                ", pRt=" + pRt +
+                ", pRo=" + pRo +
+                ", pOt=" + pOt +
+                ", pSi=" + pSi +
+                ", thetaRo=" + thetaRo +
+                ", thetaOt=" + thetaOt +
+                ", thetaTar=" + thetaTar +
+                ", thetaObs=" + thetaObs +
+                ", theta=" + theta +
+                '}';
+    }
 }

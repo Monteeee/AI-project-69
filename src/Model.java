@@ -61,18 +61,31 @@ public class Model {
                 }
             }
         }
-
         return outRover;
     }
 
-    public PhysicalConstants getPhysConsts() {
+    public PhysConst getPhysConsts() {
         Rover nearestRover = getNextRover(Rover.Type.ROVER);
         Rover nearestObstacle = getNextRover(Rover.Type.OBSTACLE);
-        return new PhysicalConstants(agent, nearestRover, nearestObstacle);
+        return new PhysConst(agent, nearestRover, nearestObstacle);
     }
 
     public String toString() {
-        return "";
-    }
+        StringBuilder s = new StringBuilder();
 
+        s.append( "agent position: " + agent.getPosition() + "\n");
+        s.append( "closest rover position: " + getNextRover(Rover.Type.ROVER).getPosition() + "\n");
+        s.append( "closest obstacle position: " + getNextRover(Rover.Type.OBSTACLE).getPosition() + "\n");
+
+        for (Rover rover : rovers){
+            if (rover.getType() == Rover.Type.ROVER && rover != getNextRover(Rover.Type.ROVER)){
+                s.append( "rover position: " + rover.getPosition() + "\n");
+            }else if (rover.getType() == Rover.Type.OBSTACLE && rover != getNextRover(Rover.Type.OBSTACLE)){
+                s.append( "obstacle position: " + rover.getPosition() + "\n");
+            }
+        }
+        PhysConst ps = getPhysConsts();
+        s.append(ps.toString());
+        return s.toString();
+    }
 }
