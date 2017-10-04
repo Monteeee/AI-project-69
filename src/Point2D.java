@@ -8,4 +8,10 @@ public class Point2D {
         this.x = x;
         this.y = y;
     }
+
+    public static double getDistance(Point2D a, Point2D b) {
+        double x = Math.abs(a.x - b.x);
+        double y = Math.abs(a.y - b.y);
+        return Math.sqrt(Math.pow(x, 2d) + Math.pow(x, 2d));
+    }
 }
