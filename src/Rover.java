@@ -7,6 +7,7 @@ public class Rover {
     private double speed;
     private double angle;
     private double angularVelocity;
+    public Route route;
     private final Type type;
 
     public double getRadius() { return radius; }
@@ -30,5 +31,20 @@ public class Rover {
 
     public enum Type {
         ROVER, OBSTACLE
+    }
+
+    public void findRoute(){
+        this.route.radius = (speed / angularVelocity) + radius;
+
+        double relativeAngle;
+        if (angularVelocity >= 0){
+            relativeAngle = angle + (Math.PI / 2);
+        }
+        else{
+            relativeAngle = angle - (Math.PI / 2);
+        }
+        Point2D relativeVector = new Point2D(Math.cos(relativeAngle) * route.radius, Math.sin(relativeAngle) * route.radius);
+
+        this.route.position = Point2D.vecAdd(position, relativeVector);
     }
 }
