@@ -1,12 +1,18 @@
 public class Rover {
 
-    private double radius;
+    private final double radius;
     private Point2D position;
     private double speed;
     private double angle;
     private double angularVelocity;
-    private Type type;
+    private final Type type;
 
+    public double getRadius() { return radius; }
+    public Point2D getPosition() { return position; }
+    public double getSpeed() { return speed; }
+    public double getAngle() { return angle; }
+    public double getAngularVelocity() { return angularVelocity; }
+    public Type getType() { return type; }
 
     public Rover (Point2D position, double radius, Type type) {
         this.position = position;

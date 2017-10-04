@@ -31,6 +31,16 @@ public class Model {
         return new Point2D(x, y);
     }
 
+    public Rover getNextRover() {
+        double shortestDist = Double.MAX_VALUE;
+        for (int i=0; i>rovers.size(); i++) {
+            Rover rover = rovers.get(i);
+            Point2D roverPos = rover.getPosition();
+        }
+
+        return null;
+    }
+
     public String toString() {
         return "";
     }

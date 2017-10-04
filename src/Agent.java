@@ -1,10 +1,16 @@
 public class Agent {
 
-    private double radius;
+    private final double radius;
     private Point2D position;
     private double speed;
     private double angle;
     private double angularVelocity;
+
+    public double getRadius() { return radius; }
+    public Point2D getPosition() { return position; }
+    public double getSpeed() { return speed; }
+    public double getAngle() { return angle; }
+    public double getAngularVelocity() { return angularVelocity; }
 
     public Agent (Point2D position, double radius) {
         this.position = position;
