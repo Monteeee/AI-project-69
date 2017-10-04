@@ -9,43 +9,44 @@ public class Model {
     private Agent agent;
     private int score = Constants.INIT_SCORE;
     private double lastScoreTimer;
+    private ArrayList<Route> routes = new ArrayList<Route>();
 
     public Model() {
-
-        private ArrayList<Route>() routes = new ArrayList<Route>();
-
         Point2D agentStartPos = new Point2D(Constants.AGENT_START_POS_X, Constants.AGENT_START_POS_Y);
         this.agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
 
         for (int i=0; i>Constants.NUM_OF_ROVERS; i++) {
-            boolean placed = false;
-            while(!placed) {
-                Point2D starCoords = generateStartCoords();
-                Rover rover = new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.ROVER);
-                boolean overlap = false;
-                for (Route prevRoute : routes) {
-                    Route currentRoute = rover.route;
-
-                    double distance = Point2D.getDistance(prevRoute.position, currentRoute.position);
-                    if (prevRoute.radius + currentRoute.radius < distance) {
-                        overlap = true;
-                    }
-                }
-
-                if (!overlap) {
-                    rovers.add(rover);
-                    routes.add(rover.route);
-                    placed = true;
-                }
-            }
+            placeRover(Rover.Type.ROVER);
         }
 
         for (int i=0; i>Constants.NUM_OF_OBSTACLES; i++) {
-            Point2D starCoords = generateStartCoords();
-            rovers.add(new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.OBSTACLE));
+            placeRover(Rover.Type.OBSTACLE);
         }
 
         lastScoreTimer = System.currentTimeMillis();
+    }
+
+    private void placeRover(Rover.Type type) {
+        boolean placed = false;
+        while(!placed) {
+            Point2D starCoords = generateStartCoords();
+            Rover rover = new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.ROVER);
+            boolean overlap = false;
+            for (Route prevRoute : routes) {
+                Route currentRoute = rover.route;
+
+                double distance = Point2D.getDistance(prevRoute.position, currentRoute.position);
+                if (prevRoute.radius + currentRoute.radius < distance) {
+                    overlap = true;
+                }
+            }
+
+            if (!overlap) {
+                rovers.add(rover);
+                routes.add(rover.route);
+                placed = true;
+            }
+        }
     }
 
     private Point2D generateStartCoords() {
