@@ -37,7 +37,13 @@ public class Model {
         boolean placed = false;
         while(!placed) {
             Point2D starCoords = generateStartCoords();
-            Rover rover = new Rover(starCoords, Constants.ROVER_RADIUS, Rover.Type.ROVER);
+            Rover rover;
+            if (type == Rover.Type.OBSTACLE){
+                rover = new Rover(starCoords, Constants.OBSTACLE_RADIUS, type);
+            }
+            else {
+                rover = new Rover(starCoords, Constants.ROVER_RADIUS, type);
+            }
             boolean overlap = false;
             for (Route prevRoute : routes) {
                 Route currentRoute = rover.route;

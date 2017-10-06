@@ -91,7 +91,7 @@ public class Simulation extends JPanel implements ActionListener, Runnable {
     public void run() {
         while (true) {
             if (Simulation.running) {
-                theModel.updateModel(1000); // update model
+                theModel.updateModel(10); // update model
                 this.theView.updateUI(); // update view
             }
             try {

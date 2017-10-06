@@ -1,5 +1,6 @@
 public class Constants {
     public static final double ROVER_RADIUS = 2d*5;
+    public static final double OBSTACLE_RADIUS = 5d*5;
     public static final double AGENT_RADIUS = 1d*5;
     public static final double FIELD_SIZE_X = 100d*5;
     public static final double FIELD_SIZE_Y = 100d*5;

@@ -38,6 +38,8 @@ public class View extends JPanel {
 
 
         for (Rover rover : myModel.getRovers()) {
+
+
             // check the type
             if(rover.getType() == Rover.Type.ROVER) {
                 g.setColor(Color.RED);
