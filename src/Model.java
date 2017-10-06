@@ -67,7 +67,7 @@ public class Model {
             Point2D newRoverPos = new Point2D(
                     rover.getPosition().x + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()),
                     rover.getPosition().y + rover.getSpeed()*deltaTime*Math.sin(rover.getAngle()));
-            rover.setPosition(newAgentPos);
+            rover.setPosition(newRoverPos);
 
             //Goal check, bottom and top of screen
             if( rover.getType() == Rover.Type.ROVER) {

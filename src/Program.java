@@ -4,5 +4,8 @@ public class Program {
 //        model.toString();
         model.updateModel(1000);
         System.out.println(model.toString());
+        model.updateModel(2000);
+        System.out.println();
+        System.out.println(model.toString());
     }
 }

@@ -51,36 +51,52 @@ public class PhysConst {
 
     public PhysConst(Agent robot, Rover target, Rover obstacle){
 
+        // position of target
         this.pTar = target.getPosition();
 
+        // velocity of target
         this.vTar = new Point2D(target.getSpeed() * Math.cos(target.getAngle()), target.getSpeed() * Math.sin(target.getAngle()));
 
+        // position of robot
         this.p = robot.getPosition();
 
+        // velocity of robot
         this.v = new Point2D(robot.getSpeed() * Math.cos(robot.getAngle()),robot.getSpeed() * Math.sin(robot.getAngle()));
 
+        // position of the obstacle
         this.pObs = obstacle.getPosition();
 
+        // velocity of the obstacle
         this.vObs = new Point2D(obstacle.getSpeed() * Math.cos(obstacle.getAngle()), obstacle.getSpeed() * Math.sin(obstacle.getAngle()));
 
+        // radius of the obstacle
         this.rObs = obstacle.getRadius();
 
+        // relative position from robot to target
         this.pRt = (Point2D.relPos(pTar, p));
 
+        // relative position from robot to obstacle
         this.pRo = Point2D.relPos(robot.getPosition(), obstacle.getPosition());
 
+        // relative position from obstacle to target
         this.pOt = Point2D.relPos(obstacle.getPosition(), target.getPosition());
 
+        // angle of pRt
         this.pSi = Math.atan(pRt.y / pRt.x);
 
+        // angle of pRo
         this.thetaRo = Math.atan(pRo.y / pRo.x);
 
+        // angle of pOt
         this.thetaOt = Math.atan(pOt.y / pOt.x);
 
+        // angle of vTar
         this.thetaTar = target.getAngle();
 
+        // angle of vObs
         this.thetaObs = obstacle.getAngle();
 
+        //angle of v
         this.theta = robot.getAngle();
     }
     @Override
