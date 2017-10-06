@@ -11,6 +11,13 @@ public class Model {
     private double lastScoreTimer;
     private ArrayList<Route> routes = new ArrayList<Route>();
 
+    public ArrayList<Rover> getRovers() { return rovers; }
+    public ArrayList<Route> getRoutes() { return routes; }
+
+    // some function to place agent might be needed.
+
+    public Agent getAgent() { return agent; }
+
     public Model() {
         Point2D agentStartPos = new Point2D(Constants.AGENT_START_POS_X, Constants.AGENT_START_POS_Y);
         this.agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
