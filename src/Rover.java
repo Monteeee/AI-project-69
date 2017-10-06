@@ -20,11 +20,18 @@ public class Rover {
     public void setPosition(Point2D position) {
         this.position = position;
         this.speed = Constants.ROVER_INIT_SPEED;
+        this.angularVelocity = Constants.ROVER_INIT_ANGULAR_VELOCITY;
         this.angle = new Random().nextDouble() * 2 * Math.PI;
     }
 
-    public Rover (Point2D position, double radius, Type type) {
+    public void updatePosition(Point2D position, double deltatime){
         this.position = position;
+        this.speed = Constants.ROVER_INIT_SPEED;
+        this.angle += angularVelocity * deltatime;
+    }
+
+    public Rover (Point2D position, double radius, Type type) {
+        setPosition(position);
         this.radius = radius;
         this.type = type;
         findRoute();
@@ -49,3 +56,6 @@ public class Rover {
         this.route.position = Point2D.vecAdd(position, relativeVector);
     }
 }
+
+
+// angle += angularvelocity * deltatime

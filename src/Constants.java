@@ -11,4 +11,5 @@ public class Constants {
     public static final int INIT_SCORE = 1000;
     public static final int SCORE_PER_ROVER = 100;
     public static final double ROVER_INIT_SPEED = 1;
+    public static final double ROVER_INIT_ANGULAR_VELOCITY = 0.01;
 }
