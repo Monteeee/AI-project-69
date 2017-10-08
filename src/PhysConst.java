@@ -82,13 +82,13 @@ public class PhysConst {
         this.pOt = Point2D.relPos(obstacle.getPosition(), target.getPosition());
 
         // angle of pRt
-        this.pSi = Math.atan(pRt.y / pRt.x);
+        this.pSi = Math.atan2(pRt.x, pRt.y);
 
         // angle of pRo
-        this.thetaRo = Math.atan(pRo.y / pRo.x);
+        this.thetaRo = Math.atan2(pRo.x, pRo.y);
 
         // angle of pOt
-        this.thetaOt = Math.atan(pOt.y / pOt.x);
+        this.thetaOt = Math.atan2(pOt.x, pOt.y);
 
         // angle of vTar
         this.thetaTar = target.getAngle();

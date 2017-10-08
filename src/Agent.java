@@ -18,8 +18,10 @@ public class Agent {
     public void setPosition(Point2D position) {
         this.position = position;
     }
-
     public void setCurrent_target(int target_number) { this.current_target = target_number; }
+
+    public void setSpeed(double speed) { this.speed = speed; }
+    public void setAngle(double angle) { this.angle = angle; }
 
     public Agent (Point2D position, double radius) {
         this.position = position;
