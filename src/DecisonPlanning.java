@@ -1,14 +1,26 @@
 public class DecisonPlanning {
     // not sure where these constant parameter should be placed
-    public static final double c1 = 2;
-    public static final double c2 = 0;
-    public static final double c3 = 0;
-    public static final double w_d = 8;
-    public static final double kz1 = 1;
-    public static final double kz2 = 1;
+    public static final double c1 = 2; // unit cost for d1
+    public static final double c2 = 0; // unit cost for d2
+    public static final double c3 = 0; // unit cost for n_obs
+    public static final double w_d = 8; // width of danger zone
+    public static final double kz1 = 1; // scaling parameter in velocity planning
+    public static final double kz2 = 1; // scaling parameter in velocity planning
 
     //------------------------
 
+    // Decision part
+    // Decision - select the target with least 2nd order heuristic cost
+    // Heuristic - compute the heuristic cost based on distances and potential obstacle number
+    // P_to_L_distance - helper function to compute the distance from point to line
+
+    // target_list: list of rovers who are labeled as target
+    // obstacle_list: list of rovers who are labeled as obstacles
+    // min_all: minimum value of all 2nd order heuristic cost
+    // ind_all: index of the target with minimum 2nd order heuristic cost
+    // h_j: 2nd order heuristic of jth target
+    // h_temp: temporary variable to store heuristic
+    // min_h: minimum value of the second part of heuristic cost
     public static boolean Decision(Agent robot, Arraylist<Rover> target_list, ArrayList<Rover> obstacle_list)
     {
         if (current_target == -1)
@@ -31,12 +43,14 @@ public class DecisonPlanning {
                 double h_temp;
                 for (int j = 0; j < target_num; j++)
                 {
+                    // compute the first level of 2nd order heuristic, from robot to first target
                     h_j = Heuristic(robot.getPosition(), target_list.get(j).getPosition(), obstacle_list);
                     min_h = 99999999;
                     for (int i = 0; i < target_num; i++)
                     {
                         if (i == j)
                             continue;
+                        // compute the second level of 2nd order heuristic, from first target to second target
                         h_temp = Heuristic(target_list.get(j).getPosition(), target_list.get(i).getPosition(), obstacle_list);
                         if (h_temp < min_h)
                         {
@@ -57,6 +71,12 @@ public class DecisonPlanning {
 
     }
 
+    // p: robot position
+    // p_tar: target position
+    // heur: heuristic value, the output
+    // d1: distance from robot to target
+    // d2: distance from target to closest boarder
+    // n_obs: number of obstacles in danger zone
     private static double Heuristic(Point2D p, Point2D p_tar, ArrayList<Rover> obstacle_list)
     {
         double heur = 0.0;
@@ -101,5 +121,7 @@ public class DecisonPlanning {
     {
         return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
     }
+
+
 
 }
