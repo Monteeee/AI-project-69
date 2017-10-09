@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class DecisonPlanning {
     // not sure where these constant parameter should be placed
     public static final double c1 = 2; // unit cost for d1

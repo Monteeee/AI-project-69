@@ -45,4 +45,10 @@ public class Point2D {
         double y = a.y + b.y;
         return new Point2D(x, y);
     }
+
+    // check if (point + maximum distance) is out of bounds
+    public static boolean outOfBounds (Point2D a, double maxDist){
+        return (a.x + maxDist > Constants.FIELD_SIZE_X || a.x - maxDist < 0 ||
+                a.y + maxDist > Constants.FIELD_SIZE_Y || a.y -maxDist < 0);
+    }
 }

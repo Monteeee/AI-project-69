@@ -1,6 +1,3 @@
-import javafx.util.Pair;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -36,6 +33,7 @@ public class Model {
     private void placeRover(Rover.Type type) {
         boolean placed = false;
         while(!placed) {
+
             Point2D starCoords = generateStartCoords();
             Rover rover;
             if (type == Rover.Type.OBSTACLE){
@@ -44,17 +42,24 @@ public class Model {
             else {
                 rover = new Rover(starCoords, Constants.ROVER_RADIUS, type);
             }
+            Route currentRoute = rover.route;
+
+            // check if rover's route goes out of bounds
+            boolean outOfBounds = false;
+            if (Point2D.outOfBounds(currentRoute.position, currentRoute.radius)){
+                outOfBounds = true;
+            }
+
+            // check if rover's route overlaps another rovers route
             boolean overlap = false;
             for (Route prevRoute : routes) {
-                Route currentRoute = rover.route;
-
                 double distance = Point2D.getDistance(prevRoute.position, currentRoute.position);
-                if (prevRoute.radius + currentRoute.radius < distance) {
+
+                if (prevRoute.radius + currentRoute.radius > distance) {
                     overlap = true;
                 }
             }
-
-            if (!overlap) {
+            if (!overlap && !outOfBounds) {
                 rovers.add(rover);
                 routes.add(rover.route);
                 placed = true;
