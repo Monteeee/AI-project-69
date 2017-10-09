@@ -28,7 +28,7 @@ public class DecisonPlanning {
     // return true -> target already set or target successfully set
     public static boolean Decision(Agent robot, ArrayList<Rover> target_list, ArrayList<Rover> obstacle_list)
     {
-        if (current_target == -1)
+        if (robot.getCurrent_target() == -1)
         {
             if ( target_list.size() == 0 )
             {
