@@ -38,7 +38,7 @@ public class Rover {
     }
 
     public enum Type {
-        ROVER, OBSTACLE
+        TARGET, OBSTACLE
     }
 
     public void findRoute(){

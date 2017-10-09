@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Scrollbar;
 
 import javax.swing.*;
 
@@ -11,13 +10,13 @@ public class View extends JPanel {
     double endX, endY;
     Agent agent;
 
-    private Model myModel;
+//    private Model myModel;
     /**
      * Creates Panel with custom background
-     * @param theModel
+//     * @param theModel
      */
-    View(Model theModel) {
-        this.myModel = theModel;
+    View() {
+        Model.initializeModel();
         //this.setPreferredSize(theModel.getDimenstion());
         this.setPreferredSize(new Dimension((int)Constants.FIELD_SIZE_X, (int)Constants.FIELD_SIZE_Y));
         this.setBackground(Color.WHITE);
@@ -29,7 +28,7 @@ public class View extends JPanel {
      */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        agent = myModel.getAgent();
+        agent = Model.getAgent();
         endY = agent.getPosition().y + 2 * Constants.AGENT_RADIUS * Math.cos(agent.getAngle() * Math.PI / 180);
         endX = agent.getPosition().x + 2 * Constants.AGENT_RADIUS * Math.sin(agent.getAngle() * Math.PI / 180);
         g.setColor(Color.GREEN);
@@ -37,11 +36,11 @@ public class View extends JPanel {
         g.fillOval((int) agent.getPosition().x, (int) agent.getPosition().y, (int) agent.getRadius(), (int) agent.getRadius());
 
 
-        for (Rover rover : myModel.getRovers()) {
+        for (Rover rover : Model.getRovers()) {
 
 
             // check the type
-            if(rover.getType() == Rover.Type.ROVER) {
+            if(rover.getType() == Rover.Type.TARGET) {
                 g.setColor(Color.RED);
                 g.fillOval((int) rover.getPosition().x, (int) rover.getPosition().y, (int) rover.getRadius(), (int) rover.getRadius());
             }else{

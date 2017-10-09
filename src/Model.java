@@ -1,26 +1,30 @@
+import javax.xml.bind.helpers.ValidationEventLocatorImpl;
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Model {
-    private ArrayList<Rover> rovers = new ArrayList<>();
-    private Agent agent;
-    private int score = Constants.INIT_SCORE;
-    private double lastScoreTimer;
-    private ArrayList<Route> routes = new ArrayList<Route>();
+    private static ArrayList<Rover> rovers = new ArrayList<>();
+//    private ArrayList<Rover>
+    private static Agent agent;
+    private static int score = Constants.INIT_SCORE;
+    private static double lastScoreTimer;
+    private static ArrayList<Route> routes = new ArrayList<Route>();
 
-    public ArrayList<Rover> getRovers() { return rovers; }
-    public ArrayList<Route> getRoutes() { return routes; }
+    public static ArrayList<Rover> getRovers() { return rovers; }
+    public static ArrayList<Route> getRoutes() { return routes; }
 
     // some function to place agent might be needed.
 
-    public Agent getAgent() { return agent; }
+    public static Agent getAgent() { return agent; }
 
-    public Model() {
+    public static void initializeModel() {
         Point2D agentStartPos = new Point2D(Constants.AGENT_START_POS_X, Constants.AGENT_START_POS_Y);
-        this.agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
+        agent = new Agent(agentStartPos, Constants.AGENT_RADIUS);
+        agent.setSpeed(Constants.AGENT_INIT_SPEED);
+        agent.setAngle(Constants.AGENT_INIT_ANGULAR_VELOCITY);
 
         for (int i=0; i<Constants.NUM_OF_ROVERS; i++) {
-            placeRover(Rover.Type.ROVER);
+            placeRover(Rover.Type.TARGET);
         }
 
         for (int i=0; i<Constants.NUM_OF_OBSTACLES; i++) {
@@ -30,7 +34,7 @@ public class Model {
         lastScoreTimer = System.currentTimeMillis();
     }
 
-    private void placeRover(Rover.Type type) {
+    private static void placeRover(Rover.Type type) {
         boolean placed = false;
         while(!placed) {
 
@@ -40,7 +44,7 @@ public class Model {
                 rover = new Rover(starCoords, Constants.OBSTACLE_RADIUS, type);
             }
             else {
-                rover = new Rover(starCoords, Constants.ROVER_RADIUS, type);
+                rover = new Rover(starCoords, Constants.TARGET_RADIUS, type);
             }
             Route currentRoute = rover.route;
 
@@ -67,7 +71,7 @@ public class Model {
         }
     }
 
-    private Point2D generateStartCoords() {
+    private static Point2D generateStartCoords() {
         Random random = new Random();
         double x = random.nextDouble() * Constants.FIELD_SIZE_X;
         double y = random.nextDouble() * Constants.FIELD_SIZE_Y;
@@ -75,23 +79,27 @@ public class Model {
     }
 
 
-    public void updateModel(double deltaTime) {
+    public static void updateModel(double deltaTime) {
+        DecisonPlanning.VelocityPlanning(agent, getNextRover(Rover.Type.TARGET), getRoversByType(Rover.Type.OBSTACLE));
+
+        System.out.println(agent.getPosition().toString());
+
         Point2D newAgentPos = new Point2D(
-                agent.getPosition().x + agent.getSpeed()*deltaTime*Math.cos(agent.getAngle()),
-                agent.getPosition().y + agent.getSpeed()*deltaTime*Math.sin(agent.getAngle()));
+                agent.getPosition().x + agent.getSpeed()*deltaTime*Math.sin(agent.getAngle()),
+                agent.getPosition().y + agent.getSpeed()*deltaTime*Math.cos(agent.getAngle()));
         agent.setPosition(newAgentPos);
 
         for (int i=0; i<rovers.size(); i++) {
             Rover rover = rovers.get(i);
             Point2D newRoverPos = new Point2D(
-                    rover.getPosition().x + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()),
-                    rover.getPosition().y + rover.getSpeed()*deltaTime*Math.sin(rover.getAngle()));
+                    rover.getPosition().x + rover.getSpeed()*deltaTime*Math.sin(rover.getAngle()),
+                    rover.getPosition().y + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()));
             rover.updatePosition(newRoverPos, deltaTime);
 
 //            rover.setPosition(newRoverPos);
 
             //Goal check, bottom and top of screen
-            if( rover.getType() == Rover.Type.ROVER) {
+            if( rover.getType() == Rover.Type.TARGET) {
                 if (rover.getPosition().y < 0 || rover.getPosition().y > Constants.FIELD_SIZE_Y) {
                     score += Constants.SCORE_PER_ROVER;
                     rovers.remove(rover);
@@ -100,7 +108,17 @@ public class Model {
         }
     }
 
-    public Rover getNextRover(Rover.Type type) {
+    public static ArrayList<Rover> getRoversByType(Rover.Type type){
+        ArrayList<Rover> ret = new ArrayList<>();
+        for (Rover rover : rovers){
+            if (rover.getType() == type){
+                ret.add(rover);
+            }
+        }
+        return ret;
+    }
+
+    public static Rover getNextRover(Rover.Type type) {
         double shortestDist = Double.MAX_VALUE;
         Rover outRover = rovers.get(0);
         for (int i=0; i<rovers.size(); i++) {
@@ -118,13 +136,13 @@ public class Model {
         return outRover;
     }
 
-    public PhysConst getPhysConsts() {
-        Rover nearestRover = getNextRover(Rover.Type.ROVER);
+    public static PhysConst getPhysConsts() {
+        Rover nearestRover = getNextRover(Rover.Type.TARGET);
         Rover nearestObstacle = getNextRover(Rover.Type.OBSTACLE);
         return new PhysConst(agent, nearestRover, nearestObstacle);
     }
 
-    public void checkTimeAndDecrementScore() {
+    public static void checkTimeAndDecrementScore() {
         double currentTime = System.currentTimeMillis();
         if (currentTime > lastScoreTimer + 1000) {
             score -= 1;
@@ -132,15 +150,15 @@ public class Model {
         }
     }
 
-    public String toString() {
+    public static String toStr() {
         StringBuilder s = new StringBuilder();
 
         s.append( "agent position: " + agent.getPosition() + "\n");
-        s.append( "closest rover position: " + getNextRover(Rover.Type.ROVER).getPosition() + "\n");
+        s.append( "closest rover position: " + getNextRover(Rover.Type.TARGET).getPosition() + "\n");
         s.append( "closest obstacle position: " + getNextRover(Rover.Type.OBSTACLE).getPosition() + "\n");
 
         for (Rover rover : rovers){
-            if (rover.getType() == Rover.Type.ROVER && rover != getNextRover(Rover.Type.ROVER)){
+            if (rover.getType() == Rover.Type.TARGET && rover != getNextRover(Rover.Type.TARGET)){
                 s.append( "rover position: " + rover.getPosition() + "\n");
             }else if (rover.getType() == Rover.Type.OBSTACLE && rover != getNextRover(Rover.Type.OBSTACLE)){
                 s.append( "obstacle position: " + rover.getPosition() + "\n");

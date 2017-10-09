@@ -24,8 +24,8 @@ public class Simulation extends JPanel implements ActionListener, Runnable {
     static long sleepTime = 48;
     static boolean running = false;
 
-    Simulation(Model m, View v) {
-        this.theModel = m;
+    Simulation(View v) {
+//        this.theModel = m;
         this.theView = v;
         this.startButton = new JButton("START");
         this.stopButton = new JButton("STOP");
@@ -91,7 +91,7 @@ public class Simulation extends JPanel implements ActionListener, Runnable {
     public void run() {
         while (true) {
             if (Simulation.running) {
-                theModel.updateModel(10); // update model
+                Model.updateModel(10); // update model
                 this.theView.updateUI(); // update view
             }
             try {

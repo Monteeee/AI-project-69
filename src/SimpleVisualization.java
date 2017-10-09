@@ -19,9 +19,9 @@ public class SimpleVisualization extends JFrame{
 
         this.setContentPane(this.getContentPane());
 
-        Model theModel = new Model();
-        View theView = new View(theModel);
-        Simulation sim = new Simulation(theModel,theView);
+//        Model theModel = new Model();
+        View theView = new View();
+        Simulation sim = new Simulation(theView);
         this.add(theView, "East");
         this.add(sim, "West");
         this.pack();

@@ -25,6 +25,12 @@ public class Point2D {
         return Math.atan2(this.x, this.y);
     }
 
+    // angle of a vector represented by Point2D
+    public double getInvertedAngle(){
+        return Math.atan2(this.y, this.x);
+    }
+
+    // vector subtraction
     // relative position between point a and point b
     public static Point2D relPos(Point2D a, Point2D b) {
         double x = a.x - b.x;

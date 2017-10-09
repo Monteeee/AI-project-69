@@ -5,11 +5,11 @@ public class DecisonPlanning {
     public static final double c1 = 2; // unit cost for d1
     public static final double c2 = 0; // unit cost for d2
     public static final double c3 = 0; // unit cost for n_obs
-    public static final double w_d = 8; // width of danger zone
-    public static final double kz1 = 1; // scaling parameter in velocity planning
-    public static final double kz2 = 1; // scaling parameter in velocity planning
-    public static final double v_max = 5.0; // maximum speed of robot/agent
-    public static final double rho_z = 8d*5;
+    public static final double widthOfDangerZone = 1; // width of danger zone
+    public static final double scalingParam1 = 1; // scaling parameter in velocity planning
+    public static final double scalingParam2 = 0.11; // scaling parameter in velocity planning
+    public static final double Vmax = 0.3; // maximum speed of robot/agent
+    public static final double influenceOfRange = 4d*5; //influence range
 
     //------------------------
 
@@ -26,22 +26,24 @@ public class DecisonPlanning {
     // h_temp: temporary variable to store heuristic
     // min_h: minimum value of the second part of heuristic cost
     // return true -> target already set or target successfully set
-    public static boolean Decision(Agent robot, ArrayList<Rover> target_list, ArrayList<Rover> obstacle_list)
-    {
-        if (robot.getCurrent_target() == -1)
-        {
-            if ( target_list.size() == 0 )
-            {
+    public static boolean Decision(Agent robot, ArrayList<Rover> target_list, ArrayList<Rover> obstacle_list) {
+
+        if (robot.getCurrent_target() == -1) {
+
+            ArrayList targetList = Model.getRoversByType(Rover.Type.TARGET);
+            if (targetList.isEmpty()) {
+
                 System.err.println("no target left, game should have ended!");
                 return false;
             }
-            else if ( target_list.size() == 1 )
-            {
+            else if (targetList.size() == 1) {
+
                 robot.setCurrent_target(0);
                 return true;
-            }
-            else{
-                double min_all = 99999999;
+
+            } else {
+
+                double min_all = Integer.MAX_VALUE;
                 int ind_all = 0;
                 int target_num = target_list.size();
                 double h_j;
@@ -83,7 +85,7 @@ public class DecisonPlanning {
     // p_tar: target position
     // heur: heuristic value, the output
     // d1: distance from robot to target
-    // d2: distance from target to closest boarder
+    // d2: distance from target to closest border
     // n_obs: number of obstacles in danger zone
     private static double Heuristic(Point2D p, Point2D p_tar, ArrayList<Rover> obstacle_list)
     {
@@ -114,7 +116,7 @@ public class DecisonPlanning {
 
         for (int i = 0; i < obstacle_list.size(); i++)
         {
-            if ( P_to_L_distance(a, b, c, obstacle_list.get(i).getPosition() ) <  w_d / 2)
+            if ( P_to_L_distance(a, b, c, obstacle_list.get(i).getPosition() ) <  widthOfDangerZone / 2)
             {
                 n_obs = n_obs + 1;
             }
@@ -130,96 +132,124 @@ public class DecisonPlanning {
         return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
     }
 
-    private static void VelocityPlanning(Agent robot, Rover target, ArrayList<Rover> obstacle_list)
-    {
-        double v_pl = 0;
-        double hd_pl = 0;
+    public static void VelocityPlanning(Agent robot, Rover target, ArrayList<Rover> obstacle_list) {
 
-        int obs_num = obstacle_list.size();
-        ArrayList obs_in = new ArrayList<>();
-        ArrayList rho_in = new ArrayList<>();
-        double rho_temp;
-        int obs_in_num = 0;
-        for (int i = 0; i < obs_num; i++)
+        PhysConst C = Model.getPhysConsts();
+
+        // temporary robot angle
+        double tempTheta = 0;
+
+        // obstacles in range
+        ArrayList<Rover> obsInRange = new ArrayList<>();
+
+        // distance from robot to outer radius of the obstacle
+        ArrayList<Double> distOfObs = new ArrayList<>();
+
+        double tempRho;
+
+        for (Rover obstacle : obstacle_list)
         {
-            rho_temp = Point2D.getDistance(obstacle_list.get(i).getPosition(), robot.getPosition()) - obstacle_list.get(i).getRadius();
-            if (rho_temp < rho_z)
-            {
-                obs_in.add(obstacle_list.get(i));
-                rho_in.add(rho_temp);
-                obs_in_num = obs_in_num + 1;
+            tempRho = Point2D.getDistance(obstacle.getPosition(), robot.getPosition()) - obstacle.getRadius();
+
+            if (tempRho < influenceOfRange) {
+                obsInRange.add(obstacle);
+                distOfObs.add(tempRho);
             }
         }
 
-        double v_temp;
-        double hd_temp;
-        double v_tar = target.getSpeed();
-        Point2D p_rt = Point2D.relPos(robot.getPosition(), target.getPosition());
-        double hd_tar = target.getAngle();
-        double ang_rt = p_rt.getAngle();
+        // temporary robot velocity scalar
+        double tempV = 0;
 
-        if (obs_in_num == 0)
+        // speed of target
+        double vTarScalar = 10.0 * target.getSpeed();
+
+        // relative position from robot to target
+        Point2D pRt = Point2D.relPos(target.getPosition(), robot.getPosition());
+
+        // angle of target velocity
+        double thetaTar = target.getAngle();
+
+        // angle of the relative position from robot to target
+        double pSi = pRt.getAngle();
+
+        if (obsInRange.isEmpty())
         {
-            v_temp = Math.pow(v_tar,2d) + 2.0*kz1*p_rt.getLength()*v_tar*Math.cos(hd_tar-ang_rt) + Math.pow(kz1,2d)*p_rt.getLength();
-            v_temp = Math.sqrt(v_temp);
+            tempV = Math.pow(vTarScalar, 2d) + 2.0 * scalingParam1 * pRt.getLength() * vTarScalar * Math.cos( thetaTar - pSi )
+                    + Math.pow(scalingParam1, 2d) * pRt.getLength();
 
-            v_pl = Math.min( v_temp , v_max );
-            hd_pl = ang_rt + Math.asin( v_tar * Math.sin(hd_tar-ang_rt)/robot.getSpeed() );
+            tempV = Math.sqrt(tempV) / 10.0;
 
-            robot.setSpeed(v_pl);
-            robot.setAngle(hd_pl);
+            tempV = Math.min( tempV , Vmax);
+
+            tempTheta = pSi + Math.asin( vTarScalar/10.0 * Math.sin(thetaTar-pSi)/tempV );
+
+            robot.setSpeed(tempV);
+            robot.setAngle(tempTheta);
         }
         else{
-            if (obs_in_num == 1)
-            {
-                Point2D p_ro_1 = Point2D.relPos(robot.getPosition(), obstacle_list.get(0).getPosition());
-                if ( p_ro_1.x / p_rt.x - p_ro_1.y / p_rt.y < 0.00001 )
-                {
-                    if ( Math.abs(p_rt.x) > Math.abs(p_rt.y) )
+            // for avoiding local minima
+            if (obsInRange.size() == 1) {
+
+                // relative position from robot to one obstacle
+                Point2D pRoi = Point2D.relPos(obstacle_list.get(0).getPosition(), robot.getPosition());
+
+                // if target and obstacle are on the same vector relative to the robot
+                if ( pRoi.x / pRt.x - pRoi.y / pRt.y < 0.00001 ) {
+
+                    //
+                    if ( Math.abs(pRt.x) > Math.abs(pRt.y) )
                     {
-                        Point2D new_target = new Point2D(p_rt.x, 0.0);
-                        p_rt = new_target;
-                        ang_rt = p_rt.getAngle();
+                        Point2D newTarget = new Point2D(pRt.x, 0.0);
+                        pRt = newTarget;
+                        pSi = pRt.getAngle();
                     }
                     else{
-                        Point2D new_target = new Point2D(0.0, p_rt.y);
-                        p_rt = new_target;
-                        ang_rt = p_rt.getAngle();
+                        Point2D newTarget = new Point2D(0.0, pRt.y);
+                        pRt = newTarget;
+                        pSi = pRt.getAngle();
                     }
                 }
             }
 
-            double eta_i;
-            double beta_i;
+            // some intermediate variables
+            double etaI;
+            double betaI;
             double item1 = 0;
             double item2 = 0;
             double item3 = 0;
-            double hat_ang_rt;
-            Point2D p_ro_i = new Point2D(0,0);
-            for (int i = 0; i < obs_in_num; i++)
-            {
-                p_ro_i = Point2D.relPos( robot.getPosition(), obs_in.get(i).getPosition() );
-                eta_i = kz2 / ( Math.pow(rho_in.get(i), 2d) * p_ro_i.getLength() ) * ( 1.0/rho_in.get(i) - 1.0/rho_z );
-                beta_i = (eta_i * p_ro_i.getLength()) / (kz1 * p_rt.getLength());
 
-                item1 = item1 + beta_i * Math.sin(p_ro_i.getAngle());
-                item2 = item2 + beta_i * Math.cos(p_ro_i.getAngle());
+            //
+            double pSiHat;
+            Point2D pRoi = new Point2D(0,0);
 
-                item3 = item3 + beta_i * obstacle_list.get(i).getSpeed() * Math.cos( obstacle_list.get(i).getAngle() - p_ro_i.getAngle() );
+            for (int i = 0; i < obsInRange.size(); i++) {
+
+                // relative position from robot to one obstacle
+                pRoi = Point2D.relPos( obsInRange.get(i).getPosition(), robot.getPosition() );
+
+
+                etaI = scalingParam2 / ( Math.pow(distOfObs.get(i), 2d) * pRoi.getLength() ) * ( 1.0/distOfObs.get(i) - 1.0/ influenceOfRange);
+
+                betaI = (etaI * pRoi.getLength()) / (scalingParam1 * pRt.getLength());
+
+                item1 = item1 + betaI * Math.sin(pRoi.getAngle());
+
+                item2 = item2 + betaI * Math.cos(pRoi.getAngle());
+
+                item3 = item3 + betaI * obstacle_list.get(i).getSpeed() * Math.cos( obstacle_list.get(i).getAngle() - pRoi.getAngle() );
             }
 
-            hat_ang_rt = Math.atan2( Math.cos(ang_rt) - item2 , Math.sin(ang_rt) - item1 );
+            pSiHat = Math.atan2( Math.cos(pSi) - item2 , Math.sin(pSi) - item1 );
 
-            v_temp = v_tar*Math.cos(hd_tar-ang_rt) - item3 + kz1 * p_rt.getLength();
-            v_temp = Math.pow(v_temp, 2d) + Math.pow(v_tar,2d) * Math.pow( Math.sin(hd_tar-hat_ang_rt) , 2d);
-            v_temp = Math.sqrt(v_temp);
+            tempV = vTarScalar*Math.cos(thetaTar-pSi) - item3 + scalingParam1 * pRt.getLength();
+            tempV = Math.pow(tempV, 2d) + Math.pow(vTarScalar,2d) * Math.pow( Math.sin(thetaTar-pSiHat) , 2d);
+            tempV = Math.sqrt(tempV);
 
-            v_pl = Math.min( v_temp , v_max );
-            hd_pl = hat_ang_rt + Math.asin( v_tar * Math.sin(hd_tar-hat_ang_rt) / robot.getSpeed() );
+            tempV = Math.min( tempV , Vmax);
+            tempTheta = pSiHat + Math.asin( vTarScalar * Math.sin(thetaTar-pSiHat) / robot.getSpeed() );
 
-            robot.setSpeed(v_pl);
-            robot.setAngle(hd_pl);
+            robot.setSpeed(tempV);
+            robot.setAngle(tempTheta);
         }
     }
-
 }
