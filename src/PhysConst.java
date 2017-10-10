@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.io.TypeMismatchException;
+
 public class PhysConst {
 
     // position of target
@@ -12,44 +14,20 @@ public class PhysConst {
     // velocity of robot
     public Point2D v;
 
-    // position of the obstacle
-    public Point2D pObs;
-
-    // velocity of the obstacle
-    public Point2D vObs;
-
-    // radius of the obstacle
-    public double rObs;
-
     // relative position from robot to target
     public Point2D pRt;
-
-    // relative position from robot to obstacle
-    public Point2D pRo;
-
-    // relative position from obstacle to target
-    public Point2D pOt;
 
     // angle of pRt
     public double pSi;
 
-    // angle of pRo
-    public double thetaRo;
-
-    // angle of pOt
-    public double thetaOt;
-
     // angle of vTar
     public double thetaTar;
-
-    // angle of vObs
-    public double thetaObs;
 
     //angle of v
     public double theta;
 
 
-    public PhysConst(Agent robot, Rover target, Rover obstacle){
+    public PhysConst(Agent robot, Rover target){
 
         // position of target
         this.pTar = target.getPosition();
@@ -63,42 +41,26 @@ public class PhysConst {
         // velocity of robot
         this.v = new Point2D(robot.getSpeed() * Math.cos(robot.getAngle()),robot.getSpeed() * Math.sin(robot.getAngle()));
 
-        // position of the obstacle
-        this.pObs = obstacle.getPosition();
-
-        // velocity of the obstacle
-        this.vObs = new Point2D(obstacle.getSpeed() * Math.cos(obstacle.getAngle()), obstacle.getSpeed() * Math.sin(obstacle.getAngle()));
-
-        // radius of the obstacle
-        this.rObs = obstacle.getRadius();
-
         // relative position from robot to target
         this.pRt = (Point2D.relPos(pTar, p));
-
-        // relative position from robot to obstacle
-        this.pRo = Point2D.relPos(robot.getPosition(), obstacle.getPosition());
-
-        // relative position from obstacle to target
-        this.pOt = Point2D.relPos(obstacle.getPosition(), target.getPosition());
 
         // angle of pRt
         this.pSi = Math.atan2(pRt.x, pRt.y);
 
-        // angle of pRo
-        this.thetaRo = Math.atan2(pRo.x, pRo.y);
-
-        // angle of pOt
-        this.thetaOt = Math.atan2(pOt.x, pOt.y);
-
         // angle of vTar
         this.thetaTar = target.getAngle();
-
-        // angle of vObs
-        this.thetaObs = obstacle.getAngle();
 
         //angle of v
         this.theta = robot.getAngle();
     }
+
+    public ObstacleConst getObstacleConst(Rover obstacle) {
+        if (obstacle.getType() == Rover.Type.OBSTACLE) {
+            return new ObstacleConst(obstacle, p, pTar);
+        }
+        else throw new TypeMismatchException("Rover was expected to be an obstacle, but was not.");
+    }
+
     @Override
     public String toString() {
         return "PhysConst{" +
@@ -106,17 +68,9 @@ public class PhysConst {
                 "\n vTar=" + vTar +
                 "\n p=" + p +
                 "\n v=" + v +
-                "\n pObs=" + pObs +
-                "\n vObs=" + vObs +
-                "\n rObs=" + rObs +
                 "\n pRt=" + pRt +
-                "\n pRo=" + pRo +
-                "\n pOt=" + pOt +
                 "\n pSi=" + pSi +
-                "\n thetaRo=" + thetaRo +
-                "\n thetaOt=" + thetaOt +
                 "\n thetaTar=" + thetaTar +
-                "\n thetaObs=" + thetaObs +
                 "\n theta=" + theta +
                 '}';
     }

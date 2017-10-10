@@ -139,8 +139,9 @@ public class Model {
     public static PhysConst getPhysConsts() {
         Rover nearestRover = getNextRover(Rover.Type.TARGET);
         Rover nearestObstacle = getNextRover(Rover.Type.OBSTACLE);
-        return new PhysConst(agent, nearestRover, nearestObstacle);
+        return new PhysConst(agent, nearestRover);
     }
+
 
     public static void checkTimeAndDecrementScore() {
         double currentTime = System.currentTimeMillis();
