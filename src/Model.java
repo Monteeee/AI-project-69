@@ -149,10 +149,8 @@ public class Model {
         return outRover;
     }
 
-    public static PhysConst getPhysConsts() {
-        Rover nearestRover = getNextRover(Rover.Type.TARGET);
-        Rover nearestObstacle = getNextRover(Rover.Type.OBSTACLE);
-        return new PhysConst(agent, nearestRover);
+    public static PhysConst getPhysConsts(Rover target) {
+        return new PhysConst(agent, target);
     }
 
 
@@ -178,7 +176,7 @@ public class Model {
                 s.append( "obstacle position: " + rover.getPosition() + "\n");
             }
         }
-        PhysConst ps = getPhysConsts();
+        PhysConst ps = getPhysConsts(getNextRover(Rover.Type.TARGET));
         s.append(ps.toString());
         return s.toString();
     }
