@@ -35,17 +35,22 @@ public class View extends JPanel {
         g.drawLine((int)agent.getPosition().x, (int)agent.getPosition().y, (int)endX,(int)endY);
         g.fillOval((int) agent.getPosition().x, (int) agent.getPosition().y, (int) agent.getRadius(), (int) agent.getRadius());
 
-
+        int count = 0;
         for (Rover rover : Model.getRovers()) {
 
-
             // check the type
+            // draw targets
             if(rover.getType() == Rover.Type.TARGET) {
                 g.setColor(Color.RED);
                 g.fillOval((int) rover.getPosition().x, (int) rover.getPosition().y, (int) rover.getRadius(), (int) rover.getRadius());
             }else{
+                // draw obstacles
                 g.setColor(Color.BLUE);
-                g.fillOval((int) rover.getPosition().x, (int) rover.getPosition().y, (int) rover.getRadius(), (int) rover.getRadius());
+                g.fillOval((int) rover.getPosition().x - (int) rover.getRadius(), (int) rover.getPosition().y -
+                        (int) rover.getRadius(), (int) rover.getRadius()*2, (int) rover.getRadius()*2);
+                g.setColor(Color.YELLOW);
+                g.drawString(Integer.toString(count), (int) rover.getPosition().x, (int) rover.getPosition().y );
+                count = count + 1;
             }
 
         }
