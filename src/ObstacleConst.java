@@ -6,6 +6,9 @@ public class ObstacleConst {
     // velocity of the obstacle
     public Point2D vObs;
 
+    // speed of obstacle
+    public double sObs;
+
     // radius of the obstacle
     public double rObs;
 
@@ -14,6 +17,9 @@ public class ObstacleConst {
 
     // relative position from robot to obstacle
     public Point2D pRo;
+
+    // distance from robot to outer radius of the obstacle
+    public double ro;
 
     // relative position from obstacle to target
     public Point2D pOt;
@@ -31,19 +37,25 @@ public class ObstacleConst {
     public ObstacleConst(Rover obstacle, Point2D robotPos, Point2D targetPos) {
 
         // position of the obstacle
-        pObs = obstacle.getPosition();
+        this.pObs = obstacle.getPosition();
 
         // velocity of the obstacle
-        vObs = new Point2D(obstacle.getSpeed() * Math.cos(obstacle.getAngle()),obstacle.getSpeed() * Math.sin(obstacle.getAngle()));
+        this.vObs = new Point2D(obstacle.getSpeed() * Math.cos(obstacle.getAngle()),obstacle.getSpeed() * Math.sin(obstacle.getAngle()));
+
+        // speed of obstacle (scalar)
+        this.sObs = obstacle.getSpeed();
 
         // raduis of the obstacle
-        rObs = obstacle.getRadius();
+        this.rObs = obstacle.getRadius();
 
         // relative position from robot to target
-        pRt = Point2D.relPos(targetPos, obstacle.getPosition());
+        this.pRt = Point2D.relPos(targetPos, obstacle.getPosition());
 
         // relative position from robot to obstacle
         this.pRo = Point2D.relPos(robotPos, obstacle.getPosition());
+
+        // distance from robot to outer radius of the obstacle
+        this.ro = Point2D.getDistance( this.pObs, this.pRo ) - this.rObs;
 
         // relative position from obstacle to target
         this.pOt = Point2D.relPos(obstacle.getPosition(), targetPos);
