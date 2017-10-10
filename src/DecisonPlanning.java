@@ -8,7 +8,7 @@ public class DecisonPlanning {
     public static final double c2 = 0; // unit cost for d2
     public static final double c3 = 0; // unit cost for n_obs
     public static final double widthOfDangerZone = 1; // width of danger zone
-    public static final double scalingParam1 = 1; // scaling parameter in velocity planning
+    public static final double scalingParam1 = 0.01; // scaling parameter in velocity planning
     public static final double scalingParam2 = 0.11; // scaling parameter in velocity planning
     public static final double Vmax = 0.3; // maximum speed of robot/agent
     public static final double influenceOfRange = 4d*5; //influence range
@@ -134,22 +134,21 @@ public class DecisonPlanning {
         return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
     }
 
+
     public static void VelocityPlanning(Rover target) {
 
-        Agent robot = Model.getAgent();
-
-        PhysConst PC = Model.getPhysConsts(target);
-
         // new robot velocity scalar to calculate
-        double newV = 0;
+        double newV;
         // new robot angle to calculate
-        double newTheta = 0;
+        double newTheta;
+
+        Agent robot = Model.getAgent();
+        PhysConst PC = Model.getPhysConsts(target);
 
         // obstacles in range
         ArrayList<Rover> obsInRange = new ArrayList<>();
 
         for (Rover obstacle : Model.getRoversByType(Rover.Type.OBSTACLE)) {
-
             ObstacleConst OC = PC.getObstacleConst(obstacle);
 
             // ro = distance from robot to outer radius of the obstacle
@@ -164,14 +163,13 @@ public class DecisonPlanning {
             // thetaTar = angle of target velocity
             // pSi = angle of the relative position from robot to target
 
-            newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos( PC.thetaTar - PC.pSi )
+            newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos(PC.thetaTar - PC.pSi)
                     + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
 
-            newV = Math.sqrt(newV) / 10.0;
+            newV = Math.sqrt(newV);
 
             newV = Math.min( newV , Vmax);
-
-            newTheta = PC.pSi + Math.asin( PC.vTar.getLength()/10.0 * Math.sin(PC.thetaTar-PC.pSi)/newV );
+            newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar-PC.pSi) / newV );
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
@@ -180,15 +178,12 @@ public class DecisonPlanning {
             // for avoiding local minima
             if (obsInRange.size() == 1) {
 
-                // pRoi = relative position from robot to one obstacle
                 ObstacleConst OC = PC.getObstacleConst(obsInRange.get(0));
 
-                OC.pRo = Point2D.relPos(obsInRange.get(0).getPosition(), robot.getPosition());
-
+                // pRo = relative position from robot to obstacle
                 // if target and obstacle are on the same vector relative to the robot
                 if ( Math.abs( OC.pRo.x / PC.pRt.x - OC.pRo.y / PC.pRt.y ) < 0.00001 ) {
 
-                    //
                     if ( Math.abs(PC.pRt.x) > Math.abs(PC.pRt.y) )
                     {
                         Point2D newTarget = new Point2D(PC.pRt.x, 0.0);
@@ -218,7 +213,7 @@ public class DecisonPlanning {
                 ObstacleConst OC = PC.getObstacleConst(obstacle);
 
                 // pRo = relative position from target to obstacle
-                etaI = scalingParam2 / ( Math.pow(OC.ro, 2d) * OC.pRo.getLength() ) * ( 1.0/OC.ro - 1.0/ influenceOfRange);
+                etaI = scalingParam2 / ( Math.pow(OC.ro, 2d) * OC.pRo.getLength() ) * ( 1.0/OC.ro - 1.0/ influenceOfRange );
 
                 betaI = (etaI * OC.pRo.getLength()) / (scalingParam1 * PC.pRt.getLength());
 
@@ -229,14 +224,17 @@ public class DecisonPlanning {
                 item3 = item3 + betaI * OC.vObs.getLength() * Math.cos( OC.thetaObs - OC.thetaRo );
             }
 
-            double pSiHat = Math.atan2( Math.cos(PC.pSi) - item2 , Math.sin(PC.pSi) - item1 );
+            double pSiHat = Math.atan2( Math.cos(PC.pSi) - item2 , Math.sin(PC.pSi) - item1);
 
             newV = PC.vTar.getLength() * Math.cos( PC.thetaTar - PC.pSi ) - item3 + scalingParam1 * PC.pRt.getLength();
-            newV = Math.pow(newV, 2d) + Math.pow(PC.vTar.getLength(), 2d) * Math.pow( Math.sin(PC.thetaTar-pSiHat) , 2d);
+
+            newV = Math.pow(newV, 2d) + Math.pow( PC.vTar.getLength(), 2d ) * Math.pow( Math.sin(PC.thetaTar-pSiHat), 2d);
+
             newV = Math.sqrt(newV);
 
-            newV = Math.min( newV , Vmax);
-            newTheta = pSiHat + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar-pSiHat) / PC.v.getLength() );
+            newV = Math.min(newV , Vmax);
+
+            newTheta = pSiHat + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar-pSiHat) / newV );
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
