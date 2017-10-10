@@ -40,7 +40,7 @@ public class ObstacleConst {
         this.rObs = obstacle.getRadius();
 
         // relative position from robot to obstacle
-        this.pRo = Point2D.relPos(robotPos, obstacle.getPosition());
+        this.pRo = Point2D.relPos( robotPos, obstacle.getPosition() );
 
         // distance from robot to outer radius of the obstacle
         this.ro = Point2D.getDistance( this.pObs, this.pRo ) - this.rObs;
