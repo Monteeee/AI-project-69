@@ -1,3 +1,5 @@
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import java.util.ArrayList;
 
 public class DecisonPlanning {
@@ -132,9 +134,11 @@ public class DecisonPlanning {
         return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
     }
 
-    public static void VelocityPlanning(Agent robot, Rover target, ArrayList<Rover> obstacle_list) {
+    public static void VelocityPlanning(Rover target) {
 
-        PhysConst C = Model.getPhysConsts();
+        Agent robot = Model.getAgent();
+
+        PhysConst PC = Model.getPhysConsts();
 
         // temporary robot angle
         double tempTheta = 0;
@@ -147,7 +151,7 @@ public class DecisonPlanning {
 
         double tempRho;
 
-        for (Rover obstacle : obstacle_list)
+        for (Rover obstacle : Model.getRoversByType(Rover.Type.OBSTACLE))
         {
             tempRho = Point2D.getDistance(obstacle.getPosition(), robot.getPosition()) - obstacle.getRadius();
 
@@ -163,25 +167,20 @@ public class DecisonPlanning {
         // speed of target
         double vTarScalar = 10.0 * target.getSpeed();
 
-        // relative position from robot to target
-        Point2D pRt = Point2D.relPos(target.getPosition(), robot.getPosition());
-
-        // angle of target velocity
-        double thetaTar = target.getAngle();
-
-        // angle of the relative position from robot to target
-        double pSi = pRt.getAngle();
+        // pRT = relative position from robot to target
+        // thetaTar = angle of target velocity
+        // pSi = angle of the relative position from robot to target
 
         if (obsInRange.isEmpty())
         {
-            tempV = Math.pow(vTarScalar, 2d) + 2.0 * scalingParam1 * pRt.getLength() * vTarScalar * Math.cos( thetaTar - pSi )
-                    + Math.pow(scalingParam1, 2d) * pRt.getLength();
+            tempV = Math.pow(vTarScalar, 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * vTarScalar * Math.cos( PC.thetaTar - PC.pSi )
+                    + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
 
             tempV = Math.sqrt(tempV) / 10.0;
 
             tempV = Math.min( tempV , Vmax);
 
-            tempTheta = pSi + Math.asin( vTarScalar/10.0 * Math.sin(thetaTar-pSi)/tempV );
+            tempTheta = PC.pSi + Math.asin( vTarScalar/10.0 * Math.sin(PC.thetaTar-PC.pSi)/tempV );
 
             robot.setSpeed(tempV);
             robot.setAngle(tempTheta);
@@ -191,22 +190,22 @@ public class DecisonPlanning {
             if (obsInRange.size() == 1) {
 
                 // relative position from robot to one obstacle
-                Point2D pRoi = Point2D.relPos(obstacle_list.get(0).getPosition(), robot.getPosition());
+                Point2D pRoi = Point2D.relPos(obsInRange.get(0).getPosition(), robot.getPosition());
 
                 // if target and obstacle are on the same vector relative to the robot
-                if ( pRoi.x / pRt.x - pRoi.y / pRt.y < 0.00001 ) {
+                if ( Math.abs( pRoi.x / PC.pRt.x - pRoi.y / PC.pRt.y ) < 0.00001 ) {
 
                     //
-                    if ( Math.abs(pRt.x) > Math.abs(pRt.y) )
+                    if ( Math.abs(PC.pRt.x) > Math.abs(PC.pRt.y) )
                     {
-                        Point2D newTarget = new Point2D(pRt.x, 0.0);
-                        pRt = newTarget;
-                        pSi = pRt.getAngle();
+                        Point2D newTarget = new Point2D(PC.pRt.x, 0.0);
+                        PC.pRt = newTarget;
+                        PC.pSi = PC.pRt.getAngle();
                     }
                     else{
-                        Point2D newTarget = new Point2D(0.0, pRt.y);
-                        pRt = newTarget;
-                        pSi = pRt.getAngle();
+                        Point2D newTarget = new Point2D(0.0, PC.pRt.y);
+                        PC.pRt = newTarget;
+                        PC.pSi = PC.pRt.getAngle();
                     }
                 }
             }
@@ -230,23 +229,23 @@ public class DecisonPlanning {
 
                 etaI = scalingParam2 / ( Math.pow(distOfObs.get(i), 2d) * pRoi.getLength() ) * ( 1.0/distOfObs.get(i) - 1.0/ influenceOfRange);
 
-                betaI = (etaI * pRoi.getLength()) / (scalingParam1 * pRt.getLength());
+                betaI = (etaI * pRoi.getLength()) / (scalingParam1 * PC.pRt.getLength());
 
                 item1 = item1 + betaI * Math.sin(pRoi.getAngle());
 
                 item2 = item2 + betaI * Math.cos(pRoi.getAngle());
 
-                item3 = item3 + betaI * obstacle_list.get(i).getSpeed() * Math.cos( obstacle_list.get(i).getAngle() - pRoi.getAngle() );
+                item3 = item3 + betaI * obsInRange.get(i).getSpeed() * Math.cos( obsInRange.get(i).getAngle() - pRoi.getAngle() );
             }
 
-            pSiHat = Math.atan2( Math.cos(pSi) - item2 , Math.sin(pSi) - item1 );
+            pSiHat = Math.atan2( Math.cos(PC.pSi) - item2 , Math.sin(PC.pSi) - item1 );
 
-            tempV = vTarScalar*Math.cos(thetaTar-pSi) - item3 + scalingParam1 * pRt.getLength();
-            tempV = Math.pow(tempV, 2d) + Math.pow(vTarScalar,2d) * Math.pow( Math.sin(thetaTar-pSiHat) , 2d);
+            tempV = vTarScalar*Math.cos(PC.thetaTar-PC.pSi) - item3 + scalingParam1 * PC.pRt.getLength();
+            tempV = Math.pow(tempV, 2d) + Math.pow(vTarScalar,2d) * Math.pow( Math.sin(PC.thetaTar-pSiHat) , 2d);
             tempV = Math.sqrt(tempV);
 
             tempV = Math.min( tempV , Vmax);
-            tempTheta = pSiHat + Math.asin( vTarScalar * Math.sin(thetaTar-pSiHat) / robot.getSpeed() );
+            tempTheta = pSiHat + Math.asin( vTarScalar * Math.sin(PC.thetaTar-pSiHat) / robot.getSpeed() );
 
             robot.setSpeed(tempV);
             robot.setAngle(tempTheta);

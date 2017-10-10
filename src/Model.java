@@ -80,7 +80,7 @@ public class Model {
 
 
     public static void updateModel(double deltaTime) {
-        DecisonPlanning.VelocityPlanning(agent, getNextRover(Rover.Type.TARGET), getRoversByType(Rover.Type.OBSTACLE));
+        DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
 
         System.out.println(agent.getPosition().toString());
 
