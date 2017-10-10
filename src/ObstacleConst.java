@@ -6,9 +6,6 @@ public class ObstacleConst {
     // velocity of the obstacle
     public Point2D vObs;
 
-    // speed of obstacle
-    public double sObs;
-
     // radius of the obstacle
     public double rObs;
 
@@ -42,8 +39,6 @@ public class ObstacleConst {
         // velocity of the obstacle
         this.vObs = new Point2D(obstacle.getSpeed() * Math.cos(obstacle.getAngle()),obstacle.getSpeed() * Math.sin(obstacle.getAngle()));
 
-        // speed of obstacle (scalar)
-        this.sObs = obstacle.getSpeed();
 
         // raduis of the obstacle
         this.rObs = obstacle.getRadius();

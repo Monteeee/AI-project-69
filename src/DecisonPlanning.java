@@ -164,14 +164,14 @@ public class DecisonPlanning {
             // thetaTar = angle of target velocity
             // pSi = angle of the relative position from robot to target
 
-            newV = Math.pow(PC.sTar, 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.sTar * Math.cos( PC.thetaTar - PC.pSi )
+            newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos( PC.thetaTar - PC.pSi )
                     + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
 
             newV = Math.sqrt(newV) / 10.0;
 
             newV = Math.min( newV , Vmax);
 
-            newTheta = PC.pSi + Math.asin( PC.sTar/10.0 * Math.sin(PC.thetaTar-PC.pSi)/newV );
+            newTheta = PC.pSi + Math.asin( PC.vTar.getLength()/10.0 * Math.sin(PC.thetaTar-PC.pSi)/newV );
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
@@ -226,17 +226,17 @@ public class DecisonPlanning {
 
                 item2 = item2 + betaI * Math.cos(OC.thetaRo);
 
-                item3 = item3 + betaI * OC.sObs * Math.cos( OC.thetaObs - OC.thetaRo );
+                item3 = item3 + betaI * OC.vObs.getLength() * Math.cos( OC.thetaObs - OC.thetaRo );
             }
 
             double pSiHat = Math.atan2( Math.cos(PC.pSi) - item2 , Math.sin(PC.pSi) - item1 );
 
-            newV = PC.sTar*Math.cos(PC.thetaTar-PC.pSi) - item3 + scalingParam1 * PC.pRt.getLength();
-            newV = Math.pow(newV, 2d) + Math.pow(PC.sTar, 2d) * Math.pow( Math.sin(PC.thetaTar-pSiHat) , 2d);
+            newV = PC.vTar.getLength() * Math.cos( PC.thetaTar - PC.pSi ) - item3 + scalingParam1 * PC.pRt.getLength();
+            newV = Math.pow(newV, 2d) + Math.pow(PC.vTar.getLength(), 2d) * Math.pow( Math.sin(PC.thetaTar-pSiHat) , 2d);
             newV = Math.sqrt(newV);
 
             newV = Math.min( newV , Vmax);
-            newTheta = pSiHat + Math.asin( PC.sTar * Math.sin(PC.thetaTar-pSiHat) / PC.s );
+            newTheta = pSiHat + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar-pSiHat) / PC.v.getLength() );
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);

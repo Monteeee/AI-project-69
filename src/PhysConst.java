@@ -8,17 +8,11 @@ public class PhysConst {
     // velocity of target
     public Point2D vTar;
 
-    // speed of target
-    public double sTar;
-
     // position of robot
     public Point2D p;
 
     // velocity of robot
     public Point2D v;
-
-    // speed of robot
-    public double s;
 
     // relative position from robot to target
     public Point2D pRt;
@@ -41,16 +35,11 @@ public class PhysConst {
         // velocity of target
         this.vTar = new Point2D(target.getSpeed() * Math.cos(target.getAngle()), target.getSpeed() * Math.sin(target.getAngle()));
 
-        // speed of target (scalar)
-        this.sTar =  10.0 * target.getSpeed();
-
         // position of robot
         this.p = robot.getPosition();
 
         // velocity of robot
         this.v = new Point2D(robot.getSpeed() * Math.cos(robot.getAngle()),robot.getSpeed() * Math.sin(robot.getAngle()));
-
-        this.s = robot.getSpeed();
 
         // relative position from robot to target
         this.pRt = (Point2D.relPos(pTar, p));
