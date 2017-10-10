@@ -138,7 +138,7 @@ public class DecisonPlanning {
 
         Agent robot = Model.getAgent();
 
-        PhysConst PC = Model.getPhysConsts();
+        PhysConst PC = Model.getPhysConsts(target);
 
         // new robot velocity scalar to calculate
         double newV = 0;
