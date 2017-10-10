@@ -10,7 +10,7 @@ public class DecisonPlanning {
     public static final double widthOfDangerZone = 1; // width of danger zone
     public static final double scalingParam1 = 0.01; // scaling parameter in velocity planning
     public static final double scalingParam2 = 0.11; // scaling parameter in velocity planning
-    public static final double Vmax = 0.3; // maximum speed of robot/agent
+    public static final double Vmax = 3; // maximum speed of robot/agent
     public static final double influenceOfRange = 4d*5; //influence range
 
     //------------------------
@@ -168,8 +168,8 @@ public class DecisonPlanning {
 
             newV = Math.sqrt(newV);
 
-            newV = Math.min( newV , Vmax);
-            newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar-PC.pSi) / newV );
+            newV = Math.min(newV , Vmax);
+            newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin( (PC.thetaTar - PC.pSi) / newV) );
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
@@ -206,10 +206,7 @@ public class DecisonPlanning {
             double item3 = 0;
 
 
-            for (int i = 0; i < obsInRange.size(); i++) {
-
-                Rover obstacle = obsInRange.get(i);
-
+            for (Rover obstacle : obsInRange) {
                 ObstacleConst OC = PC.getObstacleConst(obstacle);
 
                 // pRo = relative position from target to obstacle
@@ -221,7 +218,7 @@ public class DecisonPlanning {
 
                 item2 = item2 + betaI * Math.cos(OC.thetaRo);
 
-                item3 = item3 + betaI * OC.vObs.getLength() * Math.cos( OC.thetaObs - OC.thetaRo );
+                item3 = item3 + betaI * OC.vObs.getLength() * Math.cos(OC.thetaObs - OC.thetaRo);
             }
 
             double pSiHat = Math.atan2( Math.cos(PC.pSi) - item2 , Math.sin(PC.pSi) - item1);
