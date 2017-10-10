@@ -9,6 +9,7 @@ public class Model {
     private static int score = Constants.INIT_SCORE;
     private static double lastScoreTimer;
     private static ArrayList<Route> routes = new ArrayList<Route>();
+    private static boolean targetFleeOnCollsion = false;
 
     public static ArrayList<Rover> getRovers() { return rovers; }
     public static ArrayList<Route> getRoutes() { return routes; }
@@ -102,6 +103,18 @@ public class Model {
             if( rover.getType() == Rover.Type.TARGET) {
                 if (rover.getPosition().y < 0 || rover.getPosition().y > Constants.FIELD_SIZE_Y) {
                     score += Constants.SCORE_PER_ROVER;
+                    rovers.remove(rover);
+                }
+
+                //System.out.println("relPos: " + Point2D.getDistance(agent.getPosition(), rover.getPosition()));
+
+                //collision handling with robot
+                double targetAgentDist = Point2D.getDistance(agent.getPosition(), rover.getPosition());
+                if (targetFleeOnCollsion && targetAgentDist <= agent.getRadius() + rover.getRadius()) {
+                    Point2D relPos = Point2D.relPos(rover.getPosition(), agent.getPosition());
+                    rover.setAngle(Math.atan2(relPos.x, relPos.y));
+                }
+                else if (!targetFleeOnCollsion && targetAgentDist <= agent.getRadius() + rover.getRadius()) {
                     rovers.remove(rover);
                 }
             }
