@@ -55,7 +55,7 @@ public class Rover {
         else{
             relativeAngle = angle - (Math.PI / 2);
         }
-        Point2D relativeVector = new Point2D(Math.cos(relativeAngle) * route.radius, Math.sin(relativeAngle) * route.radius);
+        Point2D relativeVector = new Point2D(Math.sin(relativeAngle) * (route.radius - radius), Math.cos(relativeAngle) * (route.radius - radius));
 
         this.route.position = Point2D.vecAdd(position, relativeVector);
     }
