@@ -9,6 +9,9 @@ public class ObstacleConst {
     // radius of the obstacle
     public double rObs;
 
+    // relative position from robot to target
+    public Point2D pRt;
+
     // relative position from robot to obstacle
     public Point2D pRo;
 
@@ -39,14 +42,24 @@ public class ObstacleConst {
         // raduis of the obstacle
         this.rObs = obstacle.getRadius();
 
+        // relative position from robot to target
+        // this.pRt = Point2D.relPos(targetPos, obstacle.getPosition());
+        this.pRt = Point2D.relPos(robotPos , targetPos);
+
         // relative position from robot to obstacle
-        this.pRo = Point2D.relPos(robotPos, obstacle.getPosition());
+        // this.pRo = Point2D.relPos(robotPos, obstacle.getPosition());
+        this.pRo = Point2D.relPos(obstacle.getPosition(), robotPos);
+        System.out.println("pRo " + this.pRo);
 
         // distance from robot to outer radius of the obstacle
-        this.ro = Point2D.getDistance( this.pObs, this.pRo ) - this.rObs;
+        this.ro = this.pRo.getLength() - this.rObs;
+         System.out.println("Rho " + this.ro);
+        // make sure ro never becomes negative
+        if (this.ro < 0)
+            this.ro = 0;
 
         // relative position from obstacle to target
-        this.pOt = Point2D.relPos(obstacle.getPosition(), targetPos);
+        this.pOt = Point2D.relPos(targetPos, obstacle.getPosition());
 
         // angle of vObs
         this.thetaObs = obstacle.getAngle();
@@ -64,6 +77,7 @@ public class ObstacleConst {
                 "pObs=" + pObs +
                 ", vObs=" + vObs +
                 ", rObs=" + rObs +
+                ", pRt=" + pRt +
                 ", pRo=" + pRo +
                 ", pOt=" + pOt +
                 ", thetaObs=" + thetaObs +

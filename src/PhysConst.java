@@ -1,5 +1,3 @@
-import com.sun.corba.se.impl.io.TypeMismatchException;
-
 public class PhysConst {
 
     // position of target
@@ -55,10 +53,10 @@ public class PhysConst {
     }
 
     public ObstacleConst getObstacleConst(Rover obstacle) {
-        if (obstacle.getType() == Rover.Type.OBSTACLE) {
+        //if (obstacle.getType() == Rover.Type.OBSTACLE) {
             return new ObstacleConst(obstacle, p, pTar);
-        }
-        else throw new TypeMismatchException("Rover was expected to be an obstacle, but was not.");
+        //}
+        //else throw new Exception("Rover was expected to be an obstacle, but was not.");
     }
 
     @Override

@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Mod;
-
 import java.util.ArrayList;
 
 public class DecisonPlanning {
@@ -7,13 +5,11 @@ public class DecisonPlanning {
     public static final double c1 = 2; // unit cost for d1
     public static final double c2 = 0; // unit cost for d2
     public static final double c3 = 0; // unit cost for n_obs
-    public static final double widthOfDangerZone = 4; // width of danger zone
-
-
-    public static final double scalingParam1 = 0.5; // scaling parameter in velocity planning
-    public static final double scalingParam2 = 0.5; // scaling parameter in velocity planning
+    public static final double widthOfDangerZone = 1; // width of danger zone
+    public static final double scalingParam1 = 0.1; // scaling parameter in velocity planning
+    public static final double scalingParam2 = 100000; // scaling parameter in velocity planning
     public static final double Vmax = 3; // maximum speed of robot/agent
-    public static final double influenceOfRange = 30d*5; //influence range
+    public static final double influenceOfRange = 10d*5; //influence range
 
     //------------------------
 
@@ -149,18 +145,20 @@ public class DecisonPlanning {
 
         // obstacles in range
         ArrayList<Rover> obsInRange = new ArrayList<>();
-
+        int count = 0;
+        System.out.println("go!");
         for (Rover obstacle : Model.getRoversByType(Rover.Type.OBSTACLE)) {
             ObstacleConst OC = PC.getObstacleConst(obstacle);
-
+            // System.out.println("obstacle No." + count + "  " + OC.pObs);
+            count = count + 1;
             // ro = distance from robot to outer radius of the obstacle
             if (OC.ro < influenceOfRange) {
+                System.out.println("adding!");
                 obsInRange.add(obstacle);
             }
         }
 
-        System.out.println(obsInRange.size());
-
+        System.out.println("obstacle number "+ obsInRange.size() + " out of " + count);
         if (obsInRange.isEmpty()) {
             // sTar = speed of target
             // pRT = relative position from robot to target
@@ -186,7 +184,7 @@ public class DecisonPlanning {
 
                 // pRo = relative position from robot to obstacle
                 // if target and obstacle are on the same vector relative to the robot
-                if ( Math.abs( OC.pRo.x / PC.pRt.x - OC.pRo.y / PC.pRt.y ) < 0.00001 ) {
+                if ( Math.abs( OC.pRo.x / PC.pRt.x - OC.pRo.y / PC.pRt.y ) < 0.01 ) {
 
                     if ( Math.abs(PC.pRt.x) > Math.abs(PC.pRt.y) )
                     {
@@ -201,6 +199,7 @@ public class DecisonPlanning {
                     }
                 }
             }
+
             // some intermediate variables
             double etaI;
             double betaI;
@@ -208,13 +207,12 @@ public class DecisonPlanning {
             double item2 = 0;
             double item3 = 0;
 
+            // System.out.println("obstacle number  " + obsInRange.size());
             for (Rover obstacle : obsInRange) {
                 ObstacleConst OC = PC.getObstacleConst(obstacle);
 
-                double x = PC.pRt.getLength();
-
                 // pRo = relative position from target to obstacle
-                etaI = scalingParam2 / ( Math.pow(OC.ro, 2d) * OC.pRo.getLength() ) * ( 1.0/OC.ro - 1.0/influenceOfRange );
+                etaI = scalingParam2 / ( Math.pow(OC.ro, 2d) * OC.pRo.getLength() ) * ( 1.0/OC.ro - 1.0/ influenceOfRange );
 
                 betaI = (etaI * OC.pRo.getLength()) / (scalingParam1 * PC.pRt.getLength());
 
@@ -225,11 +223,11 @@ public class DecisonPlanning {
                 item3 = item3 + betaI * OC.vObs.getLength() * Math.cos(OC.thetaObs - OC.thetaRo);
             }
 
-            double pSiHat = Math.atan2(Math.sin(PC.pSi) - item1,  Math.cos(PC.pSi) - item2 );
+            double pSiHat = Math.atan2(Math.sin(PC.pSi) - item1, Math.cos(PC.pSi) - item2 );
 
-            newV = PC.vTar.getLength() * Math.cos(PC.thetaTar - PC.pSi) - item3 + scalingParam1 * PC.pRt.getLength();
+            newV = PC.vTar.getLength() * Math.cos( PC.thetaTar - PC.pSi ) - item3 + scalingParam1 * PC.pRt.getLength();
 
-            newV = Math.pow(newV, 2d) + Math.pow(PC.vTar.getLength(), 2d) * Math.pow(Math.sin(PC.thetaTar-pSiHat), 2d);
+            newV = Math.pow(newV, 2d) + Math.pow( PC.vTar.getLength(), 2d ) * Math.pow( Math.sin(PC.thetaTar-pSiHat), 2d);
 
             newV = Math.sqrt(newV);
 

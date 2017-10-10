@@ -1,4 +1,3 @@
-import javax.xml.bind.helpers.ValidationEventLocatorImpl;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,8 +12,6 @@ public class Model {
 
     public static ArrayList<Rover> getRovers() { return rovers; }
     public static ArrayList<Route> getRoutes() { return routes; }
-
-    public static Rover nextRover;
 
     // some function to place agent might be needed.
 
@@ -35,15 +32,6 @@ public class Model {
         }
 
         lastScoreTimer = System.currentTimeMillis();
-    }
-
-    public static void setNextRover(){
-        for (Rover rover : getRovers()) {
-            if (rover.equals(nextRover)) {
-                return;
-            }
-        }
-        nextRover = getNextRover(Rover.Type.TARGET);
     }
 
     private static void placeRover(Rover.Type type) {
@@ -92,10 +80,9 @@ public class Model {
 
 
     public static void updateModel(double deltaTime) {
-        setNextRover();
-        DecisonPlanning.VelocityPlanning(nextRover);
+        DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
 
-//        System.out.println(agent.getPosition().toString());
+        // System.out.println(agent.getPosition().toString());
 
         Point2D newAgentPos = new Point2D(
                 agent.getPosition().x + agent.getSpeed()*deltaTime*Math.sin(agent.getAngle()),
