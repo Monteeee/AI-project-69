@@ -9,9 +9,6 @@ public class ObstacleConst {
     // radius of the obstacle
     public double rObs;
 
-    // relative position from robot to target
-    public Point2D pRt;
-
     // relative position from robot to obstacle
     public Point2D pRo;
 
@@ -31,7 +28,7 @@ public class ObstacleConst {
     public double thetaOt;
 
 
-    public ObstacleConst(Rover obstacle, Point2D robotPos, Point2D targetPos) {
+    public ObstacleConst(Rover obstacle, Point2D p, Point2D pTar) {
 
         // position of the obstacle
         this.pObs = obstacle.getPosition();
@@ -42,15 +39,11 @@ public class ObstacleConst {
         // raduis of the obstacle
         this.rObs = obstacle.getRadius();
 
-        // relative position from robot to target
-        // this.pRt = Point2D.relPos(targetPos, obstacle.getPosition());
-        this.pRt = Point2D.relPos(robotPos , targetPos);
+        // relative position from robot (p) to obstacle (pObs)
+//        this.pRo = Point2D.relPos( p, pObs );
 
-        // relative position from robot to obstacle
-        this.pRo = Point2D.relPos( robotPos, obstacle.getPosition() );
-
-        // this.pRo = Point2D.relPos(robotPos, obstacle.getPosition());
-        this.pRo = Point2D.relPos(obstacle.getPosition(), robotPos);
+        // this.pRo = Point2D.relPos(p, obstacle.getPosition());
+        this.pRo = Point2D.relPos(pObs, p);
         System.out.println("pRo " + this.pRo);
 
         // distance from robot to outer radius of the obstacle
@@ -61,7 +54,7 @@ public class ObstacleConst {
             this.ro = 0;
 
         // relative position from obstacle to target
-        this.pOt = Point2D.relPos(targetPos, obstacle.getPosition());
+        this.pOt = Point2D.relPos(pTar, pObs);
 
         // angle of vObs
         this.thetaObs = obstacle.getAngle();
@@ -79,7 +72,6 @@ public class ObstacleConst {
                 "pObs=" + pObs +
                 ", vObs=" + vObs +
                 ", rObs=" + rObs +
-                ", pRt=" + pRt +
                 ", pRo=" + pRo +
                 ", pOt=" + pOt +
                 ", thetaObs=" + thetaObs +
