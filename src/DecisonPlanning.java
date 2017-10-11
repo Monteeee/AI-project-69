@@ -6,8 +6,8 @@ public class DecisonPlanning {
     public static final double c2 = 0; // unit cost for d2
     public static final double c3 = 0; // unit cost for n_obs
     public static final double widthOfDangerZone = 1; // width of danger zone
-    public static final double scalingParam1 = 0.1; // scaling parameter in velocity planning
-    public static final double scalingParam2 = 100000; // scaling parameter in velocity planning
+    public static final double scalingParam1 = 0.2; // scaling parameter in velocity planning
+    public static final double scalingParam2 = 500000; // scaling parameter in velocity planning
     public static final double Vmax = 3; // maximum speed of robot/agent
     public static final double influenceOfRange = 10d*5; //influence range
 
@@ -167,11 +167,13 @@ public class DecisonPlanning {
 
             newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos(PC.thetaTar - PC.pSi)
                     + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
+            if (newV < 0)
+                System.out.println("Warning: newV is negative");
 
             newV = Math.sqrt(newV);
 
             newV = Math.min(newV , Vmax);
-            newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin( (PC.thetaTar - PC.pSi) / newV) );
+            newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar - PC.pSi) / newV );
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
