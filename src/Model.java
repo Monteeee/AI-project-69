@@ -110,19 +110,25 @@ public class Model {
 
                 //collision handling with robot
                 double targetAgentDist = Point2D.getDistance(agent.getPosition(), rover.getPosition());
+
+                // if target flee on collision and target within proximity
                 if (targetFleeOnCollsion && targetAgentDist <= agent.getRadius() + rover.getRadius()+ Constants.FLEE_DISTANCE) {
                     // vector from agent towards target
                     Point2D relPos = Point2D.relPos(rover.getPosition(), agent.getPosition());
+                    // set flee angle
                     rover.setAngle(Math.atan2(relPos.x, relPos.y));
                 }
+                // if target Move Outwards On Collision and target within radius
                 else if(targetMoveOutwardsOnCollision && targetAgentDist <= agent.getRadius() + rover.getRadius()){
                     Point2D direction;
+                    // vector outwards
                     if (rover.getPosition().isUpperField()){
                         direction = new Point2D(0, 1);
                     }
                     else{
                         direction = new Point2D(0, -1);
                     }
+                    // set outwards angle 
                     rover.setAngle(Math.atan2(direction.x, direction.y));
                 }
 
