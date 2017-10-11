@@ -17,6 +17,21 @@ public class Rover {
     public double getAngularVelocity() { return angularVelocity; }
     public Type getType() { return type; }
 
+    public Point2D getChasePosition(){
+        Point2D chasePos;
+        // if on the upper side of the field
+        if (getPosition().isUpperField()){
+            // chase agent from underneath
+            chasePos = new Point2D( getPosition().x, getPosition().y - Constants.FLEE_DISTANCE * 2);
+        }
+        // if on the lower side of the field
+        else{
+            // chase agent from above
+            chasePos = new Point2D( getPosition().x, getPosition().y + Constants.FLEE_DISTANCE * 2);
+        }
+        return chasePos;
+    }
+
     public void setPosition(Point2D position) {
         this.position = position;
     }

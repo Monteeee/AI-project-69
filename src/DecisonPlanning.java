@@ -160,7 +160,6 @@ public class DecisonPlanning {
 
         System.out.println("obstacle number "+ obsInRange.size() + " out of " + count);
         if (obsInRange.isEmpty()) {
-            // sTar = speed of target
             // pRT = relative position from robot to target
             // thetaTar = angle of target velocity
             // pSi = angle of the relative position from robot to target

@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Point2D {
     public double x;
     public double y;
@@ -23,6 +25,10 @@ public class Point2D {
     // angle of a vector represented by Point2D
     public double getAngle(){
         return Math.atan2(this.x, this.y);
+    }
+
+    public boolean isUpperField(){
+        return (this.y > Constants.FIELD_SIZE_Y / 2);
     }
 
     // angle of a vector represented by Point2D
@@ -57,4 +63,5 @@ public class Point2D {
         return (a.x + maxDist > Constants.FIELD_SIZE_X || a.x - maxDist < 0 ||
                 a.y + maxDist > Constants.FIELD_SIZE_Y || a.y - maxDist < 0);
     }
+
 }

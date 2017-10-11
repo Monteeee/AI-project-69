@@ -8,7 +8,8 @@ public class Model {
     private static int score = Constants.INIT_SCORE;
     private static double lastScoreTimer;
     private static ArrayList<Route> routes = new ArrayList<Route>();
-    private static boolean targetFleeOnCollsion = false;
+    public static boolean targetFleeOnCollsion = false;
+    private static boolean targetMoveOutwardsOnCollision = false;
 
     public static ArrayList<Rover> getRovers() { return rovers; }
     public static ArrayList<Route> getRoutes() { return routes; }
@@ -109,10 +110,22 @@ public class Model {
 
                 //collision handling with robot
                 double targetAgentDist = Point2D.getDistance(agent.getPosition(), rover.getPosition());
-                if (targetFleeOnCollsion && targetAgentDist <= agent.getRadius() + rover.getRadius()) {
+                if (targetFleeOnCollsion && targetAgentDist <= agent.getRadius() + rover.getRadius()+ Constants.FLEE_DISTANCE) {
+                    // vector from agent towards target
                     Point2D relPos = Point2D.relPos(rover.getPosition(), agent.getPosition());
                     rover.setAngle(Math.atan2(relPos.x, relPos.y));
                 }
+                else if(targetMoveOutwardsOnCollision && targetAgentDist <= agent.getRadius() + rover.getRadius()){
+                    Point2D direction;
+                    if (rover.getPosition().isUpperField()){
+                        direction = new Point2D(0, 1);
+                    }
+                    else{
+                        direction = new Point2D(0, -1);
+                    }
+                    rover.setAngle(Math.atan2(direction.x, direction.y));
+                }
+
                 else if (!targetFleeOnCollsion && targetAgentDist <= agent.getRadius() + rover.getRadius()) {
                     rovers.remove(rover);
                 }

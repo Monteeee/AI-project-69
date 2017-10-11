@@ -30,6 +30,14 @@ public class PhysConst {
         // position of target
         this.pTar = target.getPosition();
 
+        if (Model.targetFleeOnCollsion){
+            this.pTar = target.getChasePosition();
+            }
+
+        System.out.println("angel by vector: " + pTar.getAngle());
+        System.out.println("angel by getangle(): " + target.getAngle());
+
+
         // velocity of target
         this.vTar = new Point2D(target.getSpeed() * Math.cos(target.getAngle()), target.getSpeed() * Math.sin(target.getAngle()));
 
