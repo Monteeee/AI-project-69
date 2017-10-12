@@ -45,6 +45,10 @@ public class PhysConst {
 
         // relative position from robot to target
         this.pRt = (Point2D.relPos(pTar, p));
+        if (this.pRt.getLength() == 0){
+            this.pRt.setX(0.0001);
+            this.pRt.setY(0.0001);
+        }
 
         // angle of pRt
         this.pSi = Math.atan2(pRt.x, pRt.y);

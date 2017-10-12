@@ -138,7 +138,6 @@ public class DecisonPlanning {
 
         robot.setSpeed(Vmax);
         robot.setAngle(PC.pSi);
-
     }
 
 
@@ -173,15 +172,21 @@ public class DecisonPlanning {
             // thetaTar = angle of target velocity
             // pSi = angle of the relative position from robot to target
 
+            System.out.println("PC.pRt: " + PC.pRt.getLength());
+            System.out.println("PC.vTar.getLength(): "  + PC.vTar.getLength());
+            System.out.println("cos: " + Math.cos(PC.thetaTar - PC.pSi));
+
             newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos(PC.thetaTar - PC.pSi)
                     + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
-            if (newV < 0)
+//            if (newV < 0)
 //                System.out.println("Warning: newV is negative");
 
             newV = Math.sqrt(newV);
 
             newV = Math.min(newV , Vmax);
             newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar - PC.pSi) / newV );
+
+            System.out.println("new V : " + newV + " new Theta: " + newTheta);
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
