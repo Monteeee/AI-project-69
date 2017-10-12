@@ -5,10 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cad04b53-9b10-4b71-8e21-ed8b3411d2d1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/DecisonPlanning.java" afterPath="$PROJECT_DIR$/src/DecisonPlanning.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/PhysConst.java" afterPath="$PROJECT_DIR$/src/PhysConst.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Point2D.java" afterPath="$PROJECT_DIR$/src/Point2D.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Model.java" afterPath="$PROJECT_DIR$/src/Model.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,7 +28,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Program.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Program.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Program.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="119">
@@ -53,10 +51,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PhysConst.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PhysConst.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/PhysConst.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="-306">
               <caret line="21" column="27" lean-forward="true" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
               <folding />
             </state>
@@ -103,8 +101,8 @@
       <file leaf-file-name="DecisonPlanning.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DecisonPlanning.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="182" column="0" lean-forward="true" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
+            <state relative-caret-position="2924">
+              <caret line="172" column="0" lean-forward="true" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -123,13 +121,13 @@
       <file leaf-file-name="Model.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="177" column="41" lean-forward="true" selection-start-line="177" selection-start-column="41" selection-end-line="177" selection-end-column="41" />
+            <state relative-caret-position="2091">
+              <caret line="123" column="0" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#446#453#0" expanded="true" />
-                <marker date="1507841578345" expanded="false" signature="7792:7803" ph=" { " />
-                <marker date="1507841578345" expanded="false" signature="7839:7845" ph=" }" />
+                <marker date="1507843986159" expanded="false" signature="7565:7576" ph=" { " />
+                <marker date="1507843986159" expanded="false" signature="7612:7618" ph=" }" />
               </folding>
             </state>
           </provider>
@@ -179,10 +177,10 @@
         <option value="$PROJECT_DIR$/src/SimpleVisualization.java" />
         <option value="$PROJECT_DIR$/src/Constants.java" />
         <option value="$PROJECT_DIR$/src/Rover.java" />
-        <option value="$PROJECT_DIR$/src/Model.java" />
         <option value="$PROJECT_DIR$/src/Point2D.java" />
         <option value="$PROJECT_DIR$/src/PhysConst.java" />
         <option value="$PROJECT_DIR$/src/DecisonPlanning.java" />
+        <option value="$PROJECT_DIR$/src/Model.java" />
       </list>
     </option>
   </component>
@@ -398,7 +396,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="73127000" />
+    <option name="totallyTimeSpent" value="73422000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="73" y="-1" width="1847" height="1081" extended-state="6" />
@@ -513,8 +511,8 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#446#453#0" expanded="true" />
-            <marker date="1507841578345" expanded="false" signature="7792:7803" ph=" { " />
-            <marker date="1507841578345" expanded="false" signature="7839:7845" ph=" }" />
+            <marker date="1507843986159" expanded="false" signature="7565:7576" ph=" { " />
+            <marker date="1507843986159" expanded="false" signature="7612:7618" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -615,8 +613,8 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#446#453#0" expanded="true" />
-            <marker date="1507841578345" expanded="false" signature="7792:7803" ph=" { " />
-            <marker date="1507841578345" expanded="false" signature="7839:7845" ph=" }" />
+            <marker date="1507843986159" expanded="false" signature="7565:7576" ph=" { " />
+            <marker date="1507843986159" expanded="false" signature="7612:7618" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -705,8 +703,8 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#446#453#0" expanded="true" />
-            <marker date="1507841578345" expanded="false" signature="7792:7803" ph=" { " />
-            <marker date="1507841578345" expanded="false" signature="7839:7845" ph=" }" />
+            <marker date="1507843986159" expanded="false" signature="7565:7576" ph=" { " />
+            <marker date="1507843986159" expanded="false" signature="7612:7618" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -742,8 +740,8 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#446#453#0" expanded="true" />
-            <marker date="1507841578345" expanded="false" signature="7792:7803" ph=" { " />
-            <marker date="1507841578345" expanded="false" signature="7839:7845" ph=" }" />
+            <marker date="1507843986159" expanded="false" signature="7565:7576" ph=" { " />
+            <marker date="1507843986159" expanded="false" signature="7612:7618" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -849,14 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Rover.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Agent.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -873,19 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="177" column="41" lean-forward="true" selection-start-line="177" selection-start-column="41" selection-end-line="177" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#446#453#0" expanded="true" />
-            <marker date="1507841578345" expanded="false" signature="7792:7803" ph=" { " />
-            <marker date="1507841578345" expanded="false" signature="7839:7845" ph=" }" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Point2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -898,14 +875,6 @@
             <element signature="e#914#915#0" expanded="true" />
             <element signature="e#963#964#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/PhysConst.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="21" column="27" lean-forward="true" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -925,14 +894,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DecisonPlanning.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="182" column="0" lean-forward="true" selection-start-line="182" selection-start-column="0" selection-end-line="182" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Program.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -941,6 +902,43 @@
             <element signature="e#108#109#0" expanded="true" />
             <element signature="e#149#150#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DecisonPlanning.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2924">
+          <caret line="172" column="0" lean-forward="true" selection-start-line="172" selection-start-column="0" selection-end-line="172" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Rover.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="55" column="31" lean-forward="true" selection-start-line="55" selection-start-column="31" selection-end-line="55" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2091">
+          <caret line="123" column="0" lean-forward="true" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#446#453#0" expanded="true" />
+            <marker date="1507843986159" expanded="false" signature="7565:7576" ph=" { " />
+            <marker date="1507843986159" expanded="false" signature="7612:7618" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PhysConst.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-306">
+          <caret line="21" column="27" lean-forward="true" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>

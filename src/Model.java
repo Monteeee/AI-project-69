@@ -130,8 +130,6 @@ public class Model {
         DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
 //        DecisonPlanning.simplePlanning(getNextRover(Rover.Type.TARGET));
 
-        // System.out.println(agent.getPosition().toString());
-
         Point2D newAgentPos = new Point2D(
                 agent.getPosition().x + agent.getSpeed()*deltaTime*Math.sin(agent.getAngle()),
                 agent.getPosition().y + agent.getSpeed()*deltaTime*Math.cos(agent.getAngle()));
@@ -144,17 +142,12 @@ public class Model {
                     rover.getPosition().y + rover.getSpeed()*deltaTime*Math.cos(rover.getAngle()));
             rover.updatePosition(newRoverPos, deltaTime);
 
-//            rover.setPosition(newRoverPos);
-
             //Goal check, bottom and top of screen
             if( rover.getType() == Rover.Type.TARGET) {
                 if (rover.getPosition().y < 0 || rover.getPosition().y > Constants.FIELD_SIZE_Y) {
                     score += Constants.SCORE_PER_ROVER;
                     rovers.remove(rover);
                 }
-
-                //System.out.println("relPos: " + Point2D.getDistance(agent.getPosition(), rover.getPosition()));
-
                 //collision handling with robot
                 double targetAgentDist = Point2D.getDistance(agent.getPosition(), rover.getPosition());
 

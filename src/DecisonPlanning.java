@@ -154,39 +154,27 @@ public class DecisonPlanning {
         // obstacles in range
         ArrayList<Rover> obsInRange = new ArrayList<>();
         int count = 0;
-//        System.out.println("go!");
         for (Rover obstacle : Model.getRoversByType(Rover.Type.OBSTACLE)) {
             ObstacleConst OC = PC.getObstacleConst(obstacle);
-            // System.out.println("obstacle No." + count + "  " + OC.pObs);
             count = count + 1;
+
             // ro = distance from robot to outer radius of the obstacle
             if (OC.ro < influenceOfRange) {
-//                System.out.println("adding!");
                 obsInRange.add(obstacle);
             }
         }
-
-//        System.out.println("obstacle number "+ obsInRange.size() + " out of " + count);
         if (obsInRange.isEmpty()) {
             // pRT = relative position from robot to target
             // thetaTar = angle of target velocity
             // pSi = angle of the relative position from robot to target
 
-            System.out.println("PC.pRt: " + PC.pRt.getLength());
-            System.out.println("PC.vTar.getLength(): "  + PC.vTar.getLength());
-            System.out.println("cos: " + Math.cos(PC.thetaTar - PC.pSi));
-
             newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos(PC.thetaTar - PC.pSi)
                     + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
-//            if (newV < 0)
-//                System.out.println("Warning: newV is negative");
 
             newV = Math.sqrt(newV);
 
             newV = Math.min(newV , Vmax);
             newTheta = PC.pSi + Math.asin( PC.vTar.getLength() * Math.sin(PC.thetaTar - PC.pSi) / newV );
-
-            System.out.println("new V : " + newV + " new Theta: " + newTheta);
 
             robot.setSpeed(newV);
             robot.setAngle(newTheta);
