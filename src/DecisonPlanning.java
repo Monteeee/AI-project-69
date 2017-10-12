@@ -8,7 +8,7 @@ public class DecisonPlanning {
     public static final double widthOfDangerZone = 1; // width of danger zone
     public static final double scalingParam1 = 0.2; // scaling parameter in velocity planning
     public static final double scalingParam2 = 500000; // scaling parameter in velocity planning
-    public static final double Vmax = 3; // maximum speed of robot/agent
+    public static final double Vmax = 6; // maximum speed of robot/agent
     public static final double influenceOfRange = 10d*5; //influence range
 
     //------------------------
@@ -132,6 +132,15 @@ public class DecisonPlanning {
         return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
     }
 
+    public static void simplePlanning(Rover target) {
+        Agent robot = Model.getAgent();
+        PhysConst PC = Model.getPhysConsts(target);
+
+        robot.setSpeed(Vmax);
+        robot.setAngle(PC.pSi);
+
+    }
+
 
     public static void VelocityPlanning(Rover target) {
 
@@ -146,19 +155,19 @@ public class DecisonPlanning {
         // obstacles in range
         ArrayList<Rover> obsInRange = new ArrayList<>();
         int count = 0;
-        System.out.println("go!");
+//        System.out.println("go!");
         for (Rover obstacle : Model.getRoversByType(Rover.Type.OBSTACLE)) {
             ObstacleConst OC = PC.getObstacleConst(obstacle);
             // System.out.println("obstacle No." + count + "  " + OC.pObs);
             count = count + 1;
             // ro = distance from robot to outer radius of the obstacle
             if (OC.ro < influenceOfRange) {
-                System.out.println("adding!");
+//                System.out.println("adding!");
                 obsInRange.add(obstacle);
             }
         }
 
-        System.out.println("obstacle number "+ obsInRange.size() + " out of " + count);
+//        System.out.println("obstacle number "+ obsInRange.size() + " out of " + count);
         if (obsInRange.isEmpty()) {
             // pRT = relative position from robot to target
             // thetaTar = angle of target velocity
@@ -167,7 +176,7 @@ public class DecisonPlanning {
             newV = Math.pow(PC.vTar.getLength(), 2d) + 2.0 * scalingParam1 * PC.pRt.getLength() * PC.vTar.getLength() * Math.cos(PC.thetaTar - PC.pSi)
                     + Math.pow(scalingParam1 * PC.pRt.getLength(), 2d);
             if (newV < 0)
-                System.out.println("Warning: newV is negative");
+//                System.out.println("Warning: newV is negative");
 
             newV = Math.sqrt(newV);
 

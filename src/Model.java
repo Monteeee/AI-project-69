@@ -1,7 +1,13 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+
 public class Model {
+    private static int numOfPlacedRovers = 0;
+
+    private static int numOfUpdates = 0;
+
+
     private static ArrayList<Rover> rovers = new ArrayList<>();
 //    private ArrayList<Rover>
     private static Agent agent;
@@ -9,7 +15,7 @@ public class Model {
     private static double lastScoreTimer;
     private static ArrayList<Route> routes = new ArrayList<Route>();
     public static boolean targetFleeOnCollsion = false;
-    private static boolean targetMoveOutwardsOnCollision = false;
+    private static boolean targetMoveOutwardsOnCollision = true;
 
     public static ArrayList<Rover> getRovers() { return rovers; }
     public static ArrayList<Route> getRoutes() { return routes; }
@@ -40,6 +46,8 @@ public class Model {
         while(!placed) {
 
             Point2D starCoords = generateStartCoords();
+//            Point2D starCoords = fixedStartCoords();
+
             Rover rover;
             if (type == Rover.Type.OBSTACLE){
                 rover = new Rover(starCoords, Constants.OBSTACLE_RADIUS, type);
@@ -72,6 +80,34 @@ public class Model {
         }
     }
 
+    private static Point2D fixedStartCoords(){
+        double x = 0;
+        double y = 0;
+
+        System.out.println(numOfPlacedRovers);
+        switch (numOfPlacedRovers){
+            case 0:
+                x = 300;
+                y = 300;
+                break;
+            case 1:
+                x = 600;
+                y = 300;
+                break;
+            case 2:
+                x = 300;
+                y = 600;
+                break;
+            case 3:
+                x = 600;
+                y = 600;
+                break;
+        }
+        numOfPlacedRovers++;
+        return new Point2D(x, y);
+
+    }
+
     private static Point2D generateStartCoords() {
         Random random = new Random();
         double x = random.nextDouble() * Constants.FIELD_SIZE_X;
@@ -81,7 +117,15 @@ public class Model {
 
 
     public static void updateModel(double deltaTime) {
+        numOfUpdates++;
+
+        if (rovers.size() == 0){
+            System.out.println("number of updates: " + numOfUpdates);
+            System.exit(0);
+        }
+
         DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
+//        DecisonPlanning.simplePlanning(getNextRover(Rover.Type.TARGET));
 
         // System.out.println(agent.getPosition().toString());
 
@@ -128,7 +172,7 @@ public class Model {
                     else{
                         direction = new Point2D(0, -1);
                     }
-                    // set outwards angle 
+                    // set outwards angle
                     rover.setAngle(Math.atan2(direction.x, direction.y));
                 }
 

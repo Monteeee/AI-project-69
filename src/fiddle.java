@@ -1,7 +1,9 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 public class fiddle {
     public static void main(String[] args){
-        System.out.println(2d);
-        System.out.println(Math.pow(2, 2d) );
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 3 + 1);
+        System.out.println(randomNum);
     }
 
 }
