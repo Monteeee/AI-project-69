@@ -85,22 +85,25 @@ public class Model {
         double y = 0;
 
         System.out.println(numOfPlacedRovers);
+        int min = 300;
+        int max = 700;
+
         switch (numOfPlacedRovers){
             case 0:
-                x = 300;
-                y = 300;
+                x = min;
+                y = min;
                 break;
             case 1:
-                x = 600;
-                y = 300;
+                x = max;
+                y = min;
                 break;
             case 2:
-                x = 300;
-                y = 600;
+                x = min;
+                y = max;
                 break;
             case 3:
-                x = 600;
-                y = 600;
+                x = max;
+                y = max;
                 break;
         }
         numOfPlacedRovers++;
