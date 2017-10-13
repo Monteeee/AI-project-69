@@ -21,11 +21,7 @@ public class DecisonPlanning {
         for (Rover target : Model.getRoversByType(Rover.Type.TARGET)){
             centerList.add( target.getRoute().getPosition() );
         }
-        System.out.println("size b4: " + centerList.size());
-
         double[] cost = costOfTravel(Model.getAgent().getPosition(), centerList, depth);
-
-        System.out.println("size after: " + centerList.size());
 
         System.out.print("total cost = ");
         System.out.println(cost[0]);
@@ -110,12 +106,7 @@ public class DecisonPlanning {
         return new double[] {minCost, minIdx, globalUpDown};
     }
 
-    // p: robot position
-    // pTar: target position
-    // heur: heuristic value, the output
-    // d1: distance from robot to target
-    // d2: distance from target to closest border
-    // n_obs: number of obstacles in danger zone
+
     private static double getCost(Point2D p, Point2D pTar) {
         double unitCost = 2;
         double pRt = Point2D.getDistance(pTar, p);

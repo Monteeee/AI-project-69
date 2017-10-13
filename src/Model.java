@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class Model {
@@ -17,7 +16,7 @@ public class Model {
     public static boolean targetFleeOnCollsion = false;
     private static boolean targetMoveOutwardsOnCollision = true;
 
-    public static boolean takeDecision = true;
+    public static boolean findNewTarget = true;
     public static int upOrDown =0;
     public static Rover optimalTarget;
 
@@ -127,10 +126,10 @@ public class Model {
 */
         numOfPlacedRovers++;
         Point2D[] roverPositions = new Point2D[] {
-                new Point2D(600, 600),
+                new Point2D(600, 700),
                 new Point2D(450, 400),
                 new Point2D(650, 400),
-                new Point2D(400, 600),
+                new Point2D(400, 700),
 
                 new Point2D(500, 800),
                 new Point2D(250, 200),
@@ -160,8 +159,8 @@ public class Model {
             System.exit(0);
         }
 
-        if (takeDecision) {
-            double[] cost = DecisonPlanning.makeDecision(3);
+        if (findNewTarget) {
+            double[] cost = DecisonPlanning.makeDecision(4);
 
             ArrayList<Rover> target_rovers = getRoversByType(Rover.Type.TARGET);
 
@@ -170,7 +169,7 @@ public class Model {
             upOrDown = (int) cost[2]; // 1 is lower field
             System.out.print("Direction [up is 1]: ");
             System.out.println(upOrDown);
-            takeDecision = false;
+            findNewTarget = false;
         }
         DecisonPlanning.VelocityPlanning(optimalTarget);
 //        DecisonPlanning.simplePlanning(optimalTarget);
@@ -194,7 +193,7 @@ public class Model {
                 if (rover.getPosition().y < 0 || rover.getPosition().y > Constants.FIELD_SIZE_Y) {
                     score += Constants.SCORE_PER_ROVER;
                     rovers.remove(rover);
-                    takeDecision = true;
+                    findNewTarget = true;
                 }
                 //collision handling with robot
                 double targetAgentDist = Point2D.getDistance(agent.getPosition(), rover.getPosition());
