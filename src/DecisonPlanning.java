@@ -54,7 +54,9 @@ public class DecisonPlanning {
 
         // for every target
         for(int i=0; i < centerList.size(); i++){
+
             ArrayList <Point2D> nextTargetList = new ArrayList<>(centerList);
+            nextTargetList.remove(centerList.get(i));
 
             // cost from agent to target (center of route)
             totalCost = getCost(agentPos, centerList.get(i)); // agentPos to target
@@ -78,8 +80,6 @@ public class DecisonPlanning {
                 }
                 // target to boundary
                 costTargetToBoundary = getCost(centerList.get(i), nextPos);
-
-                nextTargetList.remove(centerList.get(i));
                 costTargetToBoundary += costOfTravel(nextPos, nextTargetList, depth -1 )[0];
 
                 if(costTargetToBoundary < minCostTargetToBoundary) {
