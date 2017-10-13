@@ -3,7 +3,7 @@ import java.util.Random;
 
 
 public class Model {
-    private static int numOfPlacedRovers = 0;
+    private static int numOfPlacedRovers = -1;
 
     private static int numOfUpdates = 0;
 
@@ -116,18 +116,47 @@ public class Model {
     }
 
     private static Point2D generateStartCoords() {
-        Random random = new Random();
-        double x = random.nextDouble() * Constants.FIELD_SIZE_X;
-        double y = random.nextDouble() * Constants.FIELD_SIZE_Y;
-        return new Point2D(x, y);
+/*
+        numOfPlacedRovers++;
+        Point2D[] roverPositions = new Point2D[] {
+            new Point2D(700, 700),
+            new Point2D(350, 300),
+            new Point2D(750, 300),
+            new Point2D(300, 700),
+        };
+*/
+        numOfPlacedRovers++;
+        Point2D[] roverPositions = new Point2D[] {
+                new Point2D(600, 600),
+                new Point2D(450, 400),
+                new Point2D(650, 400),
+                new Point2D(400, 600),
+
+                new Point2D(500, 800),
+                new Point2D(250, 200),
+                new Point2D(550, 200),
+                new Point2D(800, 500),
+
+        };
+
+        //Random random = new Random();
+        //double x = random.nextDouble() * Constants.FIELD_SIZE_X;
+        //double y = random.nextDouble() * Constants.FIELD_SIZE_Y;
+        return roverPositions[numOfPlacedRovers];
     }
 
 
     public static void updateModel(double deltaTime) {
         numOfUpdates++;
+        System.out.println("numOfUpdates: " + numOfUpdates);
 
         if (rovers.size() == 0){
             System.out.println("number of updates: " + numOfUpdates);
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.exit(0);
         }
 
@@ -144,6 +173,7 @@ public class Model {
             takeDecision = false;
         }
         DecisonPlanning.VelocityPlanning(optimalTarget);
+//        DecisonPlanning.simplePlanning(optimalTarget);
 //        DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
 //        DecisonPlanning.simplePlanning(getNextRover(Rover.Type.TARGET));
 

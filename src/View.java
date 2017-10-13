@@ -1,6 +1,5 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -9,6 +8,9 @@ public class View extends JPanel {
 
     double endX, endY;
     Agent agent;
+    private ArrayList<Line> lines = new ArrayList<Line>();
+    private Point2D lastPos;
+
 
 //    private Model myModel;
     /**
@@ -29,6 +31,7 @@ public class View extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         agent = Model.getAgent();
+        if (lastPos == null) {lastPos = agent.getPosition();}
         endY = agent.getPosition().y + 2 * Constants.AGENT_RADIUS * Math.cos(agent.getAngle() * Math.PI / 180);
         endX = agent.getPosition().x + 2 * Constants.AGENT_RADIUS * Math.sin(agent.getAngle() * Math.PI / 180);
         g.setColor(Color.GREEN);
@@ -64,6 +67,28 @@ public class View extends JPanel {
 
         }
 
+        //New line
+        Color color = new Color(0,(int) (255*agent.getSpeed()/6),0);
+
+        //Set color to red in case of collision with obstacle
+        for(Rover obs: Model.getRoversByType(Rover.Type.OBSTACLE)) {
+            if (Point2D.getDistance(agent.getPosition(), obs.getPosition()) < agent.getRadius() + obs.getRadius()) {
+                color = Color.RED;
+            }
+        }
+
+        Line line = new Line(lastPos.x, lastPos.y, agent.getPosition().x, agent.getPosition().y, color);
+        lines.add(line);
+
+        //Update lastPost
+        lastPos = agent.getPosition();
+
+        //Draw all lines
+        for (Line l: lines) {
+            g.setColor(l.color);
+            ((Graphics2D)g).setStroke(new BasicStroke(3));
+            g.drawLine((int) l.x1, (int) l.y1, (int) l.x2, (int) l.y2);
+        }
         g.dispose();
     }
 }

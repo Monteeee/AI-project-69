@@ -55,7 +55,7 @@ public class Rover {
         this.type = type;
         this.speed = Constants.ROVER_INIT_SPEED;
         this.angularVelocity = Constants.ROVER_INIT_ANGULAR_VELOCITY;
-        this.angle = new Random().nextDouble() * 2 * Math.PI;
+        this.angle = 0;//new Random().nextDouble() * 2 * Math.PI;
 //        this.angle = Math.PI;
         findRoute();
     }
