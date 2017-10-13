@@ -11,11 +11,131 @@ public class DecisonPlanning {
     public static final double Vmax = 6; // maximum speed of robot/agent
     public static final double influenceOfRange = 10d*5; //influence range
 
+
+    // entry to decision making part
+    static double[] makeDecision(int depth){
+
+        // list with center of routes
+        ArrayList<Point2D> centerList = new ArrayList<Point2D>();
+
+        for (Rover target : Model.getRoversByType(Rover.Type.TARGET)){
+            centerList.add( target.getRoute().getPosition() );
+        }
+        System.out.println("size b4: " + centerList.size());
+
+        double[] cost = costOfTravel(Model.getAgent().getPosition(), centerList, depth);
+
+        System.out.println("size after: " + centerList.size());
+
+        System.out.print("total cost = ");
+        System.out.println(cost[0]);
+
+        return cost;
+    }
+
+    // Decision recursion recursive part
+    // minCost = total cost
+    // minidx = index of which target agentPos to choose next
+    public static double[] costOfTravel(Point2D agentPos, ArrayList <Point2D> centerList, int depth ){
+
+        if(depth < 1 || centerList.size() == 0){
+            return new double[] {0, 0, 0};
+        }
+
+        double minCost = 999999999;
+        int minIdx = 0;
+        int upDown = 0;
+        int globalUpDown = 0;
+
+        ArrayList<Integer> globalUpDownList = new ArrayList<>();
+
+        // minCostTargetToBoundary = min cost from target to boundary
+        double minCostTargetToBoundary, totalCost, costTargetToBoundary;
+
+        // for every target
+        for(int i=0; i < centerList.size(); i++){
+            ArrayList <Point2D> nextTargetList = new ArrayList<>(centerList);
+
+            // cost from agent to target (center of route)
+            totalCost = getCost(agentPos, centerList.get(i)); // agentPos to target
+            minCostTargetToBoundary = 999999999;
+
+            // for every boundary
+            for (int j = 0; j < 2 ; j++){
+
+                // next position to travel to
+                Point2D nextPos;
+
+                // if lower bound
+                if (j == 0){
+                    nextPos = new Point2D( centerList.get(i).x, 0 ); // upper boarder
+                    System.out.println(">> j = 0");
+                }
+                // if upper bound
+                else {
+                    nextPos = new Point2D(centerList.get(i).x, Constants.FIELD_SIZE_Y); // lower boarder
+                    System.out.println(">>> j! = 0");
+                }
+                // target to boundary
+                costTargetToBoundary = getCost(centerList.get(i), nextPos);
+
+                nextTargetList.remove(centerList.get(i));
+                costTargetToBoundary += costOfTravel(nextPos, nextTargetList, depth -1 )[0];
+
+                if(costTargetToBoundary < minCostTargetToBoundary) {
+                    minCostTargetToBoundary = costTargetToBoundary;
+                    upDown = j;
+                }
+                if(j==1){
+                    globalUpDownList.add(upDown);
+                }
+                for(int k = 0; k < depth; k++){
+                    System.out.print("\t");
+                }
+                System.out.print("\tSubcost: ");
+                System.out.print(costTargetToBoundary);
+                System.out.print("\tIdi ");
+                System.out.print(i);
+                System.out.print("\tIdj ");
+                System.out.println(j);
+            }
+            totalCost += minCostTargetToBoundary;
+            System.out.println("totalCost: " + totalCost);
+            if(totalCost < minCost){
+                minCost = totalCost;
+                minIdx = i;
+                globalUpDown = globalUpDownList.get(i);
+            }
+        }
+        return new double[] {minCost, minIdx, globalUpDown};
+    }
+
+    // p: robot position
+    // pTar: target position
+    // heur: heuristic value, the output
+    // d1: distance from robot to target
+    // d2: distance from target to closest border
+    // n_obs: number of obstacles in danger zone
+    private static double getCost(Point2D p, Point2D pTar) {
+        double unitCost = 2;
+        double pRt = Point2D.getDistance(pTar, p);
+
+        // add items of distance cost into heuristic
+        return pRt * unitCost;
+    }
+
+
+    private static double P_to_L_distance(double a, double b, double c, Point2D point)
+    {
+        return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
+    }
+
+
     //------------------------
 
     // Decision part
     // Decision - select the target with least 2nd order heuristic cost
-    // Heuristic - compute the heuristic cost based on distances and potential obstacle number
+    // getCost - compute the heuristic cost based on distances and potential obstacle number
     // P_to_L_distance - helper function to compute the distance from point to line
 
     // target_list: list of rovers who are labeled as target
@@ -125,11 +245,6 @@ public class DecisonPlanning {
         heur = heur + c3 * n_obs;
 
         return heur;
-    }
-
-    private static double P_to_L_distance(double a, double b, double c, Point2D point)
-    {
-        return ( Math.abs( a*point.x + b*point.y + c ) / Math.sqrt(Math.pow(a, 2d) + Math.pow(b, 2d)) );
     }
 
     public static void simplePlanning(Rover target) {

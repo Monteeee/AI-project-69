@@ -16,6 +16,9 @@ public class Rover {
     public double getAngle() { return angle; }
     public double getAngularVelocity() { return angularVelocity; }
     public Type getType() { return type; }
+    public Route getRoute() { return route; }
+
+
 
     public Point2D getChasePosition(){
         Point2D chasePos;

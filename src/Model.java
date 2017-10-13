@@ -17,8 +17,13 @@ public class Model {
     public static boolean targetFleeOnCollsion = false;
     private static boolean targetMoveOutwardsOnCollision = true;
 
+    public static boolean takeDecision = true;
+    public static int upOrDown =0;
+    public static Rover optimalTarget;
+
     public static ArrayList<Rover> getRovers() { return rovers; }
     public static ArrayList<Route> getRoutes() { return routes; }
+
 
     // some function to place agent might be needed.
 
@@ -37,7 +42,6 @@ public class Model {
         for (int i=0; i<Constants.NUM_OF_OBSTACLES; i++) {
             placeRover(Rover.Type.OBSTACLE);
         }
-
         lastScoreTimer = System.currentTimeMillis();
     }
 
@@ -127,7 +131,20 @@ public class Model {
             System.exit(0);
         }
 
-        DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
+        if (takeDecision) {
+            double[] cost = DecisonPlanning.makeDecision(3);
+
+            ArrayList<Rover> target_rovers = getRoversByType(Rover.Type.TARGET);
+
+            optimalTarget = target_rovers.get( (int) cost[1] );
+
+            upOrDown = (int) cost[2]; // 1 is lower field
+            System.out.print("Direction [up is 1]: ");
+            System.out.println(upOrDown);
+            takeDecision = false;
+        }
+        DecisonPlanning.VelocityPlanning(optimalTarget);
+//        DecisonPlanning.VelocityPlanning(getNextRover(Rover.Type.TARGET));
 //        DecisonPlanning.simplePlanning(getNextRover(Rover.Type.TARGET));
 
         Point2D newAgentPos = new Point2D(
@@ -147,6 +164,7 @@ public class Model {
                 if (rover.getPosition().y < 0 || rover.getPosition().y > Constants.FIELD_SIZE_Y) {
                     score += Constants.SCORE_PER_ROVER;
                     rovers.remove(rover);
+                    takeDecision = true;
                 }
                 //collision handling with robot
                 double targetAgentDist = Point2D.getDistance(agent.getPosition(), rover.getPosition());
@@ -162,10 +180,12 @@ public class Model {
                 else if(targetMoveOutwardsOnCollision && targetAgentDist <= agent.getRadius() + rover.getRadius()){
                     Point2D direction;
                     // vector outwards
-                    if (rover.getPosition().isUpperField()){
+                    if (upOrDown == 1){
+                        // set direction towards upper bound
                         direction = new Point2D(0, 1);
                     }
                     else{
+                        // set direction towards lower bound
                         direction = new Point2D(0, -1);
                     }
                     // set outwards angle
